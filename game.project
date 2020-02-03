@@ -1,0 +1,40 @@
+[bootstrap]
+main_collection = /main/main.collectionc
+render = /render/dunstack.renderc
+
+[script]
+shared_state = 1
+
+[display]
+width = 288
+height = 640
+vsync = 0
+high_dpi = 0
+display_profiles = /render/dunstack.display_profilesc
+
+[android]
+input_method = HiddenInputField
+package = com.y444.dunstack
+immersive_mode = 1
+
+[project]
+title = Dungeon Stacker
+
+[graphics]
+default_texture_min_filter = nearest
+default_texture_mag_filter = nearest
+
+[ios]
+bundle_identifier = com.y444.dunstack
+
+[osx]
+bundle_identifier = com.y444.dunstack
+
+[html5]
+show_made_with_defold = 0
+show_fullscreen_button = 0
+scale_mode = no_scale
+
+[label]
+subpixels = 0
+

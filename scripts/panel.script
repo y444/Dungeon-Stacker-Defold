@@ -1,0 +1,17 @@
+go.property("start_position", vmath.vector3())
+go.property("end_position", vmath.vector3())
+go.property("movement_speed", 0)
+
+function init(self)
+	-- print("I'm initializing!")
+	-- print("my start position is " .. go.get("#","start_position"))
+	-- print("my end position is " .. go.get("#","end_position"))
+	-- print("my speed is " .. go.get("#","movement_speed"))
+end
+
+function update(self, dt)
+	
+end
+
+function on_message(self, message_id, message, sender)
+end

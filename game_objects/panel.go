@@ -1,6 +1,6 @@
 components {
-  id: "block_spawner"
-  component: "/scripts/block_spawner.script"
+  id: "panel"
+  component: "/scripts/panel.script"
   position {
     x: 0.0
     y: 0.0

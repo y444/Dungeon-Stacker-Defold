@@ -84,6 +84,44 @@ animations {
   flip_horizontal: 0
   flip_vertical: 0
 }
+animations {
+  id: "coin"
+  images {
+    image: "/image sources/coin/coin_1.png"
+  }
+  images {
+    image: "/image sources/coin/coin_2.png"
+  }
+  images {
+    image: "/image sources/coin/coin_3.png"
+  }
+  images {
+    image: "/image sources/coin/coin_4.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 5
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "small_chest_open"
+  images {
+    image: "/image sources/mini_chest/mini_chest_open_1.png"
+  }
+  images {
+    image: "/image sources/mini_chest/mini_chest_open_2.png"
+  }
+  images {
+    image: "/image sources/mini_chest/mini_chest_open_3.png"
+  }
+  images {
+    image: "/image sources/mini_chest/mini_chest_open_4.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 5
+  flip_horizontal: 0
+  flip_vertical: 0
+}
 margin: 0
 extrude_borders: 2
 inner_padding: 0

@@ -1,0 +1,9 @@
+function on_message(self, message_id, message, sender)
+	if message_id == hash("spawn") then
+		print("trying to spawn a panel with length of " .. message.length)
+		local panel = factory.create("#panel_factory")
+		local block_spawner = msg.url(panel)
+		block_spawner.fragment = "block_spawner"
+		pprint(block_spawner)
+	end
+end

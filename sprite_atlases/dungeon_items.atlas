@@ -1,0 +1,89 @@
+animations {
+  id: "chest_open"
+  images {
+    image: "/image sources/chest/chest_open_1.png"
+  }
+  images {
+    image: "/image sources/chest/chest_open_2.png"
+  }
+  images {
+    image: "/image sources/chest/chest_open_3.png"
+  }
+  images {
+    image: "/image sources/chest/chest_open_4.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 5
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "banner"
+  images {
+    image: "/image sources/flag/flag_1.png"
+  }
+  images {
+    image: "/image sources/flag/flag_2.png"
+  }
+  images {
+    image: "/image sources/flag/flag_3.png"
+  }
+  images {
+    image: "/image sources/flag/flag_4.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 5
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "candle"
+  images {
+    image: "/image sources/torch/candlestick_2_1.png"
+  }
+  images {
+    image: "/image sources/torch/candlestick_2_2.png"
+  }
+  images {
+    image: "/image sources/torch/candlestick_2_3.png"
+  }
+  images {
+    image: "/image sources/torch/candlestick_2_4.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 5
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "torch_unlit_left"
+  images {
+    image: "/image sources/torch/side_torch_0.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 5
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "torch_lit_left"
+  images {
+    image: "/image sources/torch/side_torch_1.png"
+  }
+  images {
+    image: "/image sources/torch/side_torch_2.png"
+  }
+  images {
+    image: "/image sources/torch/side_torch_3.png"
+  }
+  images {
+    image: "/image sources/torch/side_torch_4.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 5
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0

@@ -1,20 +1,16 @@
-local function new_position(row, length)
-	
-end
-
-local function new_properties(message)
-	local x = message.row * 16 + 24
-	local y_l = message.length * 16 / 2 + 16
-	local y_r = 16 * 9 - y_l
+local function panel_properties(message)
+	local y = 24 + message.row * 16
+	local x_l = 24
+	local x_r = 136 - message.length * 16
 	return {
-		start_position = vmath.vector3(x, y_l, 0),
-		end_position = vmath.vector3(x, y_r, 0),
-		movement_speed = message.speed}
+		start_position = vmath.vector3(x_l, y, -4),
+		end_position = vmath.vector3(x_r, y, -4),
+		movement_speed = message.speed,
+		length = message.length }
 end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("spawn") then
-		-- print("trying to spawn a panel with length of " .. message.length)
-		local panel = factory.create("#panel_factory", nil, nil, new_properties(message))
+		local panel = factory.create("#panel_factory", nil, nil, panel_properties(message))
 	end
 end

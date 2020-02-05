@@ -5,5 +5,41 @@ tile_margin: 0
 tile_spacing: 0
 collision: ""
 material_tag: "tile"
+animations {
+  id: "middle_block_1"
+  start_tile: 71
+  end_tile: 71
+  playback: PLAYBACK_NONE
+  fps: 5
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "middle_block_2"
+  start_tile: 72
+  end_tile: 72
+  playback: PLAYBACK_NONE
+  fps: 5
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "middle_block_3"
+  start_tile: 73
+  end_tile: 73
+  playback: PLAYBACK_NONE
+  fps: 5
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "middle_block_4"
+  start_tile: 74
+  end_tile: 74
+  playback: PLAYBACK_NONE
+  fps: 5
+  flip_horizontal: 0
+  flip_vertical: 0
+}
 extrude_borders: 0
 inner_padding: 0

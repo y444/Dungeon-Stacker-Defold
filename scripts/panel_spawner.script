@@ -6,8 +6,17 @@ local function panel_properties(message)
 		length = message.length }
 end
 
+function init(self)
+	self.panels = {}
+end
+
 function on_message(self, message_id, message, sender)
 	if message_id == hash("spawn") then
 		local panel = factory.create("#panel_factory", nil, nil, panel_properties(message))
+		table.insert(self.panels, panel)
+		pprint(self.panels)
+	end
+	if message_id == hash("clear") then
+		go.delete(self.panels)
 	end
 end

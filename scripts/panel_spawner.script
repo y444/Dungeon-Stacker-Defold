@@ -1,10 +1,7 @@
 local function panel_properties(message)
-	local y = 24 + message.row * 16
-	local x_l = 24
-	local x_r = 136 - message.length * 16
 	return {
-		start_position = vmath.vector3(x_l, y, -4),
-		end_position = vmath.vector3(x_r, y, -4),
+		start_position = vmath.vector3(24, 24 + message.row * 16, -4),
+		end_position = vmath.vector3(136 - message.length * 16, 24 + message.row * 16, -4),
 		movement_speed = message.speed,
 		length = message.length }
 end

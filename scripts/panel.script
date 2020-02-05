@@ -2,22 +2,31 @@ go.property("start_position", vmath.vector3())
 go.property("end_position", vmath.vector3())
 go.property("movement_speed", 0)
 go.property("length", 0)
+go.property("direction", 1)
+go.property("move_timer", 0)
+go.property("is_moving", false)
 
 function init(self)
-	print(self.start_position)
 	go.set_position(self.start_position,".")
-	print(go.get_position())
 	for i = 1, self.length do
 		local new_block = factory.create("#block_factory")
 		go.set_parent(new_block, msg.url())
 		go.set_position(vmath.vector3((i - 1) * 16, 0, 0),new_block)
 	end
+	msg.post("#", "start_moving")
 end
 
 function update(self, dt)
-	
+	if self.is_moving then
+		if self.move_timer <= 0 then
+			self.move_timer = self.movement_speed
+		end
+		self.move_timer = self.move_timer - dt
+	end
 end
 
 function on_message(self, message_id, message, sender)
-	
+	if message_id == hash("start_moving") then
+		self.is_moving = true
+	end
 end

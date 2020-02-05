@@ -1,6 +1,7 @@
 go.property("current_row", 1)
 go.property("current_length", 3)
 go.property("current_speed", 0.5)
+go.property("speedup_factor", 0.85)
 go.property("is_panel_moving", false)
 go.property("active_panel", nil)
 
@@ -17,18 +18,17 @@ end
 
 function on_input(self, action_id, action)
 	if action_id == hash("touch") and action.pressed then
-		if self.is_panel_moving == false then
-			print("starting a panel")
-			local spawn_message = {
-				length = self.current_length, 
-				row = self.current_row, 
-				speed = self.current_speed,
-				length = self.current_length }
-			msg.post("/panel_spawner#panel_spawner", "spawn", spawn_message)
-		else
-			print("stopping a panel")
+		if self.is_panel_moving then
 			msg.post(self.active_panel, "stop")
 			self.is_panel_moving = false
+			self.current_row = self.current_row + 1
+			self.current_speed = self.current_speed * self.speedup_factor
 		end
+		local spawn_message = {
+			length = self.current_length, 
+			row = self.current_row, 
+			speed = self.current_speed,
+			length = self.current_length }
+		msg.post("/panel_spawner#panel_spawner", "spawn", spawn_message)
 	end
 end

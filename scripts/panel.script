@@ -7,19 +7,29 @@ go.property("move_timer", 0)
 go.property("is_moving", false)
 
 function init(self)
-	go.set_position(self.start_position,".")
+	local starting_positions = {self.start_position, self.end_position}
+	local random_starting_position = starting_positions[math.random(#starting_positions)]
+	if random_starting_position == self.end_position then self.direction = -1 end
+	go.set_position(random_starting_position,".")
 	for i = 1, self.length do
 		local new_block = factory.create("#block_factory")
 		go.set_parent(new_block, msg.url())
 		go.set_position(vmath.vector3((i - 1) * 16, 0, 0),new_block)
 	end
+	self.move_timer = self.movement_speed
+	msg.post("gameplay_manager", "panel_launched")
 	msg.post("#", "start_moving")
 end
 
 function update(self, dt)
+	local current_position = go.get_position()
 	if self.is_moving then
 		if self.move_timer <= 0 then
 			self.move_timer = self.movement_speed
+			if current_position == self.start_position or current_position == self.end_position then
+				self.direction = -self.direction
+			end
+			go.set_position(vmath.vector3(current_position.x - self.direction * 16, current_position.y, current_position.z))
 		end
 		self.move_timer = self.move_timer - dt
 	end
@@ -28,5 +38,8 @@ end
 function on_message(self, message_id, message, sender)
 	if message_id == hash("start_moving") then
 		self.is_moving = true
+	end
+	if message_id == hash("stop") then
+		self.is_moving = false
 	end
 end

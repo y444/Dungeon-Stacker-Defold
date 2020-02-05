@@ -1,30 +1,34 @@
+go.property("current_row", 1)
+go.property("current_length", 3)
+go.property("current_speed", 0.5)
+go.property("is_panel_moving", false)
+go.property("active_panel", nil)
+
 function init(self)
 	msg.post(".", "acquire_input_focus")
-	self.current_row = 1
-	self.current_length = 3
-	self.current_speed = 2
-	self.is_panel_moving = false
-end
-
-function update(self, dt)
-
 end
 
 function on_message(self, message_id, message, sender)
-
+	if message_id == hash("panel_launched") then
+		self.is_panel_moving = true
+		self.active_panel = sender
+	end
 end
 
 function on_input(self, action_id, action)
 	if action_id == hash("touch") and action.pressed then
-		if is_panel_moving then
-			---
-		else
+		if self.is_panel_moving == false then
+			print("starting a panel")
 			local spawn_message = {
 				length = self.current_length, 
 				row = self.current_row, 
 				speed = self.current_speed,
 				length = self.current_length }
 			msg.post("/panel_spawner#panel_spawner", "spawn", spawn_message)
+		else
+			print("stopping a panel")
+			msg.post(self.active_panel, "stop")
+			self.is_panel_moving = false
 		end
 	end
 end

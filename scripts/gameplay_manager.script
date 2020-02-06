@@ -17,6 +17,12 @@ local function start_gameplay(self)
 	torches_lightup(self, 0)
 end
 
+local function update_length(self)
+	if #panels > 1 then
+		
+	end
+end
+
 local function spawn_panel(self)
 	local panel_properties = {row = self.row, length = self.length, speed = self.speed}
 	local panel_id = factory.create("#panel_factory", nil, nil, panel_properties)
@@ -38,16 +44,17 @@ end
 function on_input(self, action_id, action)
 	if action_id == hash("touch") and action.pressed then
 		local last_panel = panels[#panels]
-		if #panels == 15 and go.get(last_panel, "is_moving") == false then
+		if (#panels == 15 or length == 0) and go.get(last_panel, "is_moving") == false then
 			start_gameplay(self)
 			return
 		end
 		if last_panel and go.get(last_panel, "is_moving") then
 			msg.post(last_panel, "stop")
 			torches_lightup(self, self.row)
+			update_length(self)
 			raise_level(self)
 		end
-		if #panels < 15 then
+		if #panels < 15 and length ~= 0 then
 			spawn_panel(self)
 		end
 	end

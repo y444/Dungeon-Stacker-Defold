@@ -83,14 +83,14 @@ layers {
   cell {
     x: 2
     y: 1
-    tile: 4
+    tile: 66
     h_flip: 0
     v_flip: 0
   }
   cell {
     x: 3
     y: 1
-    tile: 66
+    tile: 72
     h_flip: 0
     v_flip: 0
   }
@@ -104,14 +104,14 @@ layers {
   cell {
     x: 5
     y: 1
-    tile: 67
+    tile: 70
     h_flip: 0
     v_flip: 0
   }
   cell {
     x: 6
     y: 1
-    tile: 4
+    tile: 67
     h_flip: 0
     v_flip: 0
   }

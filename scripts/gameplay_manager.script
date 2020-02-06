@@ -13,12 +13,7 @@ local function start_gameplay(self)
 end
 
 local function spawn_panel(self)
-	local panel_properties = {
-		start_position = vmath.vector3(24, 24 + self.row * 16, -4),
-		end_position = vmath.vector3(136 - self.length * 16, 24 + self.row * 16, -4),
-		movement_speed = self.speed,
-		length = self.length 
-	}
+	local panel_properties = {row = self.row, length = self.length, speed = self.speed}
 	local panel_id = factory.create("#panel_factory", nil, nil, panel_properties)
 	local panel_url = msg.url(panel_id)
 	panel_url.fragment = "panel"

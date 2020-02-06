@@ -1,41 +1,48 @@
-go.property("start_position", vmath.vector3())
-go.property("end_position", vmath.vector3())
-go.property("movement_speed", 0)
+go.property("row", 0)
 go.property("length", 0)
-go.property("direction", 1)
-go.property("move_timer", 0)
+go.property("speed", 0)
 go.property("is_moving", false)
 
-function init(self)
-	local starting_positions = {self.start_position, self.end_position}
-	local random_starting_position = starting_positions[math.random(#starting_positions)]
-	if random_starting_position == self.end_position then self.direction = -1 end
-	go.set_position(random_starting_position,".")
+local function setup_position(self)
+	self.left = vmath.vector3(24, 24 + self.row * 16, -4)
+	self.right = vmath.vector3(136 - self.length * 16, 24 + self.row * 16, -4)
+	local start_options = {self.left, self.right}
+	local start = start_options[math.random(#start_options)]
+	if start == self.right then self.direction = -1 else self.direction = 1 end
+	go.set_position(start,".")
+end
+
+local function spawn_blocks(self)
 	for i = 1, self.length do
-		local new_block = factory.create("#block_factory")
-		go.set_parent(new_block, msg.url())
-		go.set_position(vmath.vector3((i - 1) * 16, 0, 0),new_block)
+		local block_id = factory.create("#block_factory")
+		local block_url = msg.url(block_id)
+		block_url.fragment = "block"
+		table.insert(self.blocks, block_url)
+		go.set_parent(block_id, msg.url())
+		go.set_position(vmath.vector3((i - 1) * 16, 0, 0),block_id)
 	end
-	self.move_timer = self.movement_speed
+end
+
+function init(self)
+	self.timer = self.speed
 	self.is_moving = true
+	self.blocks = {}
+	setup_position(self)
+	spawn_blocks(self)
 end
 
 function update(self, dt)
-	local current_position = go.get_position()
 	if self.is_moving then
-		if self.move_timer <= 0 then
-			self.move_timer = self.movement_speed
-			if current_position == self.start_position or current_position == self.end_position then
-				self.direction = -self.direction
-			end
-			go.set_position(vmath.vector3(current_position.x - self.direction * 16, current_position.y, current_position.z))
+		local position = go.get_position()
+		if self.timer <= 0 then
+			self.timer = self.speed
+			if position == self.left or position == self.right then self.direction = -self.direction end
+			go.set_position(vmath.vector3(position.x - self.direction * 16, position.y, position.z))
 		end
-		self.move_timer = self.move_timer - dt
+		self.timer = self.timer - dt
 	end
 end
 
 function on_message(self, message_id, message, sender)
-	if message_id == hash("stop") then
-		self.is_moving = false
-	end
+	if message_id == hash("stop") then self.is_moving = false end
 end

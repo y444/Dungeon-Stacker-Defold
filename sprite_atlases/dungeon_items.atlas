@@ -1,3 +1,15 @@
+images {
+  image: "/image sources/borders/border_left_1.png"
+}
+images {
+  image: "/image sources/borders/border_left_2.png"
+}
+images {
+  image: "/image sources/borders/border_right_1.png"
+}
+images {
+  image: "/image sources/borders/border_right_2.png"
+}
 animations {
   id: "chest_open"
   images {
@@ -56,7 +68,7 @@ animations {
   flip_vertical: 0
 }
 animations {
-  id: "torch_unlit_left"
+  id: "torch_unlit"
   images {
     image: "/image sources/torch/side_torch_0.png"
   }
@@ -66,7 +78,7 @@ animations {
   flip_vertical: 0
 }
 animations {
-  id: "torch_lit_left"
+  id: "torch_lit"
   images {
     image: "/image sources/torch/side_torch_1.png"
   }
@@ -123,5 +135,5 @@ animations {
   flip_vertical: 0
 }
 margin: 0
-extrude_borders: 2
+extrude_borders: 0
 inner_padding: 0

@@ -1,5 +1,5 @@
 [bootstrap]
-main_collection = /main_collection/main.collectionc
+main_collection = /collections/main.collectionc
 render = /render/dunstack.renderc
 
 [script]

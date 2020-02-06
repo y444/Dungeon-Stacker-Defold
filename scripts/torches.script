@@ -1,0 +1,42 @@
+function init(self)
+	-- Add initialization code here
+	-- Remove this function if not needed
+end
+
+function final(self)
+	-- Add finalization code here
+	-- Remove this function if not needed
+end
+
+function update(self, dt)
+	-- Add update code here
+	-- Remove this function if not needed
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("lightup") then
+		for i = 1, 15 do
+			local left_torch_url = msg.url("torch_left_"..i)
+			local right_torch_url = msg.url("torch_right_"..i)
+			left_torch_url.fragment = "sprite"
+			right_torch_url.fragment = "sprite"
+			if i <= message.amount then
+				msg.post(left_torch_url, "play_animation", {id = hash("torch_lit")})
+				msg.post(right_torch_url, "play_animation", {id = hash("torch_lit")})
+			else
+				msg.post(left_torch_url, "play_animation", {id = hash("torch_unlit")})
+				msg.post(right_torch_url, "play_animation", {id = hash("torch_unlit")})
+			end
+		end
+	end
+end
+
+function on_input(self, action_id, action)
+	-- Add input-handling code here
+	-- Remove this function if not needed
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Remove this function if not needed
+end

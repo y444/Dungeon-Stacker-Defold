@@ -1,5 +1,5 @@
 function init(self)
 	self.block_images = {"middle_block_1", "middle_block_2", "middle_block_3", "middle_block_4"}
-	local random_image = self.block_images[math.random(#self.block_images)]
-	msg.post("#sprite", "play_animation", {id = hash(random_image)})
+	self.random_image = self.block_images[math.random(#self.block_images)]
+	msg.post("#sprite", "play_animation", {id = hash(self.random_image)})
 end

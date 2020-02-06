@@ -1,34 +1,53 @@
-go.property("current_row", 1)
-go.property("current_length", 3)
-go.property("current_speed", 0.5)
-go.property("speedup_factor", 0.85)
-go.property("is_panel_moving", false)
-go.property("active_panel", nil)
+local starting_row = 1
+local starting_length = 3
+local starting_speed = 0.5
+local speedup_factor = 0.85
+local panels = {}
+
+local function start_gameplay(self)
+	go.delete(panels, true)
+	panels = {}
+	self.row = starting_row
+	self.length = starting_length
+	self.speed = starting_speed
+end
+
+local function spawn_panel(self)
+	local panel_properties = {
+		start_position = vmath.vector3(24, 24 + self.row * 16, -4),
+		end_position = vmath.vector3(136 - self.length * 16, 24 + self.row * 16, -4),
+		movement_speed = self.speed,
+		length = self.length 
+	}
+	local panel_id = factory.create("#panel_factory", nil, nil, panel_properties)
+	local panel_url = msg.url(panel_id)
+	panel_url.fragment = "panel"
+	table.insert(panels, panel_url)
+end
+
+local function raise_level(self)
+	self.row = self.row + 1
+	self.speed = self.speed * speedup_factor
+end
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
-end
-
-function on_message(self, message_id, message, sender)
-	if message_id == hash("panel_launched") then
-		self.is_panel_moving = true
-		self.active_panel = sender
-	end
+	start_gameplay(self)
 end
 
 function on_input(self, action_id, action)
 	if action_id == hash("touch") and action.pressed then
-		if self.is_panel_moving then
-			msg.post(self.active_panel, "stop")
-			self.is_panel_moving = false
-			self.current_row = self.current_row + 1
-			self.current_speed = self.current_speed * self.speedup_factor
+		local last_panel = panels[#panels]
+		if #panels == 15 and go.get(last_panel, "is_moving") == false then
+			start_gameplay(self)
+			return
 		end
-		local spawn_message = {
-			length = self.current_length, 
-			row = self.current_row, 
-			speed = self.current_speed,
-			length = self.current_length }
-		msg.post("/panel_spawner#panel_spawner", "spawn", spawn_message)
+		if last_panel and go.get(last_panel, "is_moving") then
+			msg.post(last_panel, "stop")
+			raise_level(self)
+		end
+		if #panels < 15 then
+			spawn_panel(self)
+		end
 	end
 end

@@ -17,8 +17,7 @@ function init(self)
 		go.set_position(vmath.vector3((i - 1) * 16, 0, 0),new_block)
 	end
 	self.move_timer = self.movement_speed
-	msg.post("gameplay_manager", "panel_launched")
-	msg.post("#", "start_moving")
+	self.is_moving = true
 end
 
 function update(self, dt)
@@ -36,9 +35,6 @@ function update(self, dt)
 end
 
 function on_message(self, message_id, message, sender)
-	if message_id == hash("start_moving") then
-		self.is_moving = true
-	end
 	if message_id == hash("stop") then
 		self.is_moving = false
 	end

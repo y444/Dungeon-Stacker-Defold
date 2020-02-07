@@ -54,6 +54,5 @@ function on_message(self, message_id, message, sender)
 		end
 		self.length = self.length - #message.dead
 		if self.length < 0 then self.length = 0 end
-		print(self.length)
 	end
 end

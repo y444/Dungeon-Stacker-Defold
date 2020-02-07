@@ -13,6 +13,7 @@ local function setup_position(self)
 end
 
 local function spawn_blocks(self)
+	self.blocks = {}
 	for i = 1, self.length do
 		local block_id = factory.create("#block_factory")
 		local block_url = msg.url(block_id)
@@ -26,7 +27,6 @@ end
 function init(self)
 	self.timer = self.speed
 	self.is_moving = true
-	self.blocks = {}
 	setup_position(self)
 	spawn_blocks(self)
 end
@@ -44,5 +44,16 @@ function update(self, dt)
 end
 
 function on_message(self, message_id, message, sender)
-	if message_id == hash("stop") then self.is_moving = false end
+	if message_id == hash("stop") then
+		self.is_moving = false
+	end
+	if message_id == hash("trim") then
+		for i = #message.dead, 1, -1 do
+			go.delete(self.blocks[message.dead[i]])
+			table.remove(self.blocks,message.dead[i])
+		end
+		self.length = self.length - #message.dead
+		if self.length < 0 then self.length = 0 end
+		print(self.length)
+	end
 end

@@ -4,23 +4,43 @@ local starting_speed = 0.5
 local speedup_factor = 0.85
 local panels = {}
 
-local function torches_lightup(self, torches_amount)
-	msg.post("/torches#torches", "lightup", {amount = torches_amount})
-end
-
 local function start_gameplay(self)
 	go.delete(panels, true)
 	panels = {}
 	self.row = starting_row
 	self.length = starting_length
 	self.speed = starting_speed
-	torches_lightup(self, 0)
+	msg.post("/torches#torches", "lightup", {amount = 0})
 end
 
-local function update_length(self)
-	if #panels > 1 then
-		
+local function change_length(self)
+	local x_poses = {}
+	local x = go.get_world_position(panels[#panels]).x
+	for i = 1, self.length do
+		table.insert(x_poses, x + 16 * (i - 1))
 	end
+	local prev_x_poses = {56, 72, 88}
+	if #panels > 1 then
+		prev_x_poses = {}
+		local x = go.get_world_position(panels[#panels-1]).x
+		for i = 1, go.get(panels[#panels-1], "length") do
+			table.insert(prev_x_poses, x + 16 * (i - 1))
+		end
+	end
+	prev_length = 3
+	if #panels > 1 then prev_length = go.get(panels[#panels-1], "length") end
+	local dead_blocks = {}
+	for i = 1, self.length do
+		local is_dead = true
+		for j = 1, prev_length do
+			if x_poses[i] == prev_x_poses[j] then is_dead = false end
+		end
+		if is_dead == true then table.insert(dead_blocks, i) end
+	end
+	msg.post(panels[#panels], "trim", {dead = dead_blocks})
+	-- дорисовываем бордюры для текущей панели
+	self.length = self.length - #dead_blocks
+	if self.length < 0 then self.length = 0 end
 end
 
 local function spawn_panel(self)
@@ -44,17 +64,17 @@ end
 function on_input(self, action_id, action)
 	if action_id == hash("touch") and action.pressed then
 		local last_panel = panels[#panels]
-		if (#panels == 15 or length == 0) and go.get(last_panel, "is_moving") == false then
+		if (#panels == 15 or self.length == 0) and go.get(last_panel, "is_moving") == false then
 			start_gameplay(self)
 			return
 		end
 		if last_panel and go.get(last_panel, "is_moving") then
 			msg.post(last_panel, "stop")
-			torches_lightup(self, self.row)
-			update_length(self)
+			change_length(self)
 			raise_level(self)
 		end
-		if #panels < 15 and length ~= 0 then
+		if #panels < 15 and self.length ~= 0 then
+			msg.post("/torches#torches", "lightup", {amount = self.row-1})
 			spawn_panel(self)
 		end
 	end

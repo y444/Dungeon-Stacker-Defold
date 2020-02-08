@@ -4,6 +4,7 @@ function init(self)
 	self.block_images = {"middle_block_1", "middle_block_2", "middle_block_3", "middle_block_4"}
 	self.random_block = self.block_images[math.random(#self.block_images)]
 	self.reward_factory = nil
+	msg.post("#border_sprite", "disable")
 	msg.post("#sprite", "play_animation", {id = hash(self.random_block)})
 	if self.reward == 1 then self.reward_factory = "#coin_factory"
 	elseif self.reward == 2 then self.reward_factory = "#small_chest_factory"

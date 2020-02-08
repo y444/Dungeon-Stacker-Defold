@@ -41,5 +41,14 @@ animations {
   flip_horizontal: 0
   flip_vertical: 0
 }
+animations {
+  id: "top_border"
+  start_tile: 65
+  end_tile: 65
+  playback: PLAYBACK_NONE
+  fps: 5
+  flip_horizontal: 0
+  flip_vertical: 0
+}
 extrude_borders: 0
 inner_padding: 0

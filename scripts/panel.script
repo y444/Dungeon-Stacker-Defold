@@ -42,6 +42,9 @@ local function make_borders(self)
 			local border_id = factory.create("#border_factory", border_pos, nil, {side = 1})
 			go.set_parent(border_id, self.blocks[i])
 		end
+		local top_border_url = self.blocks[i]
+		top_border_url.fragment = "border_sprite"
+		msg.post(top_border_url, "enable")
 	end
 end
 

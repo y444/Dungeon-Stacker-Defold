@@ -16,14 +16,12 @@ end
 local function spawn_blocks(self)
 	self.blocks = {}
 	local random_block_number = math.random(self.length)
-	print(random_block_number)
 	for i = 1, self.length do
 		local selected_reward = 0
 		if i == random_block_number then
 			selected_reward = 1
 			if self.row == 11 then selected_reward = 2 end
 		end
-		print("block # " .. i .. " with selected reward " .. selected_reward)
 		local block_id = factory.create("#block_factory", vmath.vector3((i - 1) * 16, 0, 0), nil, {reward = selected_reward})
 		local block_url = msg.url(block_id)
 		block_url.fragment = "block"

@@ -9,7 +9,7 @@ function init(self)
 	elseif self.reward == 2 then self.reward_factory = "#small_chest_factory"
 	end
 	if self.reward_factory then
-		local reward_id = factory.create(self.reward_factory, vmath.vector3())
+		local reward_id = factory.create(self.reward_factory, vmath.vector3(0, 0, 1))
 		go.set_parent(reward_id, msg.url())
 	end
 end

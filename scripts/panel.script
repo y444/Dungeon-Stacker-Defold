@@ -2,6 +2,7 @@ go.property("row", 0)
 go.property("length", 0)
 go.property("speed", 0)
 go.property("is_moving", false)
+go.property("stop_pos", 0)
 
 local function setup_position(self)
 	self.left = vmath.vector3(24, 24 + self.row * 16, -4)
@@ -44,9 +45,6 @@ function update(self, dt)
 end
 
 function on_message(self, message_id, message, sender)
-	if message_id == hash("stop") then
-		self.is_moving = false
-	end
 	if message_id == hash("trim") then
 		for i = #message.dead, 1, -1 do
 			go.delete(self.blocks[message.dead[i]])

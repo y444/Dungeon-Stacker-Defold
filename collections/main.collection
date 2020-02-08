@@ -4,7 +4,7 @@ instances {
   prototype: "/game_objects/chest.go"
   position {
     x: 72.0
-    y: 280.0
+    y: 296.0
     z: 0.0
   }
   rotation {
@@ -24,7 +24,7 @@ instances {
   prototype: "/game_objects/banner.go"
   position {
     x: 40.0
-    y: 296.0
+    y: 294.0
     z: 0.0
   }
   rotation {
@@ -44,7 +44,7 @@ instances {
   prototype: "/game_objects/banner.go"
   position {
     x: 104.0
-    y: 296.0
+    y: 294.0
     z: 0.0
   }
   rotation {
@@ -64,7 +64,7 @@ instances {
   prototype: "/game_objects/candle.go"
   position {
     x: 24.0
-    y: 8.0
+    y: 10.0
     z: 0.0
   }
   rotation {
@@ -84,7 +84,7 @@ instances {
   prototype: "/game_objects/candle.go"
   position {
     x: 120.0
-    y: 8.0
+    y: 10.0
     z: 0.0
   }
   rotation {

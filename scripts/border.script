@@ -1,13 +1,13 @@
-go.property("side", "left")
+go.property("side", 0)
 
 function init(self)
 	self.left_border_images = {"border_left_1", "border_left_2"}
 	self.right_border_images = {"border_right_1", "border_right_2"}
 	self.random_left_border = self.left_border_images[math.random(#self.left_border_images)]
 	self.random_right_border = self.right_border_images[math.random(#self.right_border_images)]
-	if self.side == "left" then
+	if self.side == 0 then
 		msg.post("#sprite", "play_animation", {id = hash(self.random_left_border)})
-	else
+	elseif self.side == 1 then
 		msg.post("#sprite", "play_animation", {id = hash(self.random_right_border)})
 	end
 end

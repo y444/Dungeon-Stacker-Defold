@@ -31,7 +31,18 @@ local function spawn_blocks(self)
 end
 
 local function make_borders(self)
-	--TODO
+	for i = 1, #self.blocks do
+		if i == 1 then
+			local border_pos = vmath.vector3(-16, 0, 0) 
+			local border_id = factory.create("#border_factory", border_pos, nil, {side = 0})
+			go.set_parent(border_id, self.blocks[i])
+		end
+		if i == #self.blocks then
+			local border_pos = vmath.vector3(16, 0, 0) 
+			local border_id = factory.create("#border_factory", border_pos, nil, {side = 1})
+			go.set_parent(border_id, self.blocks[i])
+		end
+	end
 end
 
 function init(self)

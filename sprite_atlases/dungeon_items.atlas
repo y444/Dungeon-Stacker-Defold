@@ -4,6 +4,12 @@ images {
 images {
   image: "/sources/image_sources/borders/border_left_2.png"
 }
+images {
+  image: "/sources/image_sources/icons/bw_skull.png"
+}
+images {
+  image: "/sources/image_sources/icons/bw_coin.png"
+}
 animations {
   id: "chest_open"
   images {

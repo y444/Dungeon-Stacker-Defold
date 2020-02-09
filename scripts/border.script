@@ -2,12 +2,12 @@ go.property("side", 0)
 
 function init(self)
 	self.left_border_images = {"border_left_1", "border_left_2"}
-	self.right_border_images = {"border_right_1", "border_right_2"}
 	self.random_left_border = self.left_border_images[math.random(#self.left_border_images)]
-	self.random_right_border = self.right_border_images[math.random(#self.right_border_images)]
-	if self.side == 0 then
-		msg.post("#sprite", "play_animation", {id = hash(self.random_left_border)})
-	elseif self.side == 1 then
-		msg.post("#sprite", "play_animation", {id = hash(self.random_right_border)})
+	msg.post("#sprite_right", "disable")
+	msg.post("#sprite", "play_animation", {id = hash(self.random_left_border)})
+	if self.side == 1 then
+		sprite.set_hflip("#sprite", true)
+		msg.post("#sprite_right", "enable")
+		msg.post("#sprite_left", "disable")
 	end
 end

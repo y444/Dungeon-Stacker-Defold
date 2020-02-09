@@ -38,3 +38,7 @@ scale_mode = no_scale
 [label]
 subpixels = 0
 
+[sprite]
+max_count = 512
+subpixels = 0
+

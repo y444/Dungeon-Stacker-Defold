@@ -4,12 +4,6 @@ images {
 images {
   image: "/image sources/borders/border_left_2.png"
 }
-images {
-  image: "/image sources/borders/border_right_1.png"
-}
-images {
-  image: "/image sources/borders/border_right_2.png"
-}
 animations {
   id: "chest_open"
   images {

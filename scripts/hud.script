@@ -1,15 +1,25 @@
 go.property("time_is_ticking", false)
 go.property("time", 0)
 
+local function shake(self, url)
+	local pos = go.get_position(url)
+	local new_pos = pos + vmath.vector3(0, 2, 0)
+	go.set_position(new_pos, url)
+	go.animate(url, "position", go.PLAYBACK_ONCE_FORWARD, pos, go.EASING_OUTCUBIC, 0.5)
+end
+
 local function blink_red(self)
-	go.set("#skull_label", "color", self.red_color)
-	go.animate("#skull_label", "color", go.PLAYBACK_ONCE_FORWARD, self.original_color, go.EASING_INCUBIC, 0.2)
+	go.set("/skull#skull_label", "color", self.red_color)
+	go.animate("/skull#skull_label", "color", go.PLAYBACK_ONCE_FORWARD, self.original_color, go.EASING_OUTCUBIC, 0.2)
+	go.set("/skull#skull_mask", "tint.w", 1)
+	go.animate("/skull#skull_mask", "tint.w", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_OUTCUBIC, 0.2)
 end
 
 function init(self)
 	self.rounded_time = 0
-	self.red_color = vmath.vector4(0.80000001192093, 0.20000000298023, 0.20000000298023, 1)
+	self.red_color = vmath.vector4(0.76078431, 0.26666666, 0.27058823, 1)
 	self.original_color = vmath.vector4(0.90196079015732, 0.90196079015732, 0.90196079015732, 1)
+	go.set("/skull#skull_mask", "tint.w", 0)
 end
 
 function update(self, dt)
@@ -17,14 +27,18 @@ function update(self, dt)
 		self.time = self.time - dt
 		if self.rounded_time ~= math.ceil(self.time) then
 			self.rounded_time = math.abs(math.ceil(self.time))
-			label.set_text("#skull_label", self.rounded_time)
-			if self.rounded_time ~= 0 then blink_red(self) end
+			label.set_text("/skull#skull_label", self.rounded_time)
+			if self.rounded_time ~= 0 then
+				blink_red(self)
+				shake(self, "/skull")
+			end
 		end
 	end
 	if self.time <= 0 then
 		self.time = 0
 		self.time_is_ticking = false
-		go.set("#skull_label", "color", self.red_color)
+		go.set("/skull#skull_label", "color", self.red_color)
+		go.set("/skull#skull_mask", "tint.w", 1)
 		-- TODO: send a message to the manager
 	end
 end

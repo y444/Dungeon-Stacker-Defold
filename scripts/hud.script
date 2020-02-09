@@ -1,0 +1,18 @@
+go.property("time_is_ticking", false)
+go.property("time", 0)
+
+function update(self, dt)
+	if self.time_is_ticking then
+		self.time = self.time - dt
+	end
+	if self.time <= 0 then
+		self.time = 0
+		self.time_is_ticking = false
+		-- TODO: send a message to the manager
+	end
+	label.set_text("#skull_label", math.ceil(self.time))
+end
+
+function on_message(self, message_id, message, sender)
+
+end

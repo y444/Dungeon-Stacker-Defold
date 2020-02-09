@@ -1,4 +1,4 @@
-image: "/image sources/Dungeon_Tileset.png"
+image: "/sources/image_sources/Dungeon_Tileset.png"
 tile_width: 16
 tile_height: 16
 tile_margin: 0

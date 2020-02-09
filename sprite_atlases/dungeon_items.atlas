@@ -1,22 +1,22 @@
 images {
-  image: "/image sources/borders/border_left_1.png"
+  image: "/sources/image_sources/borders/border_left_1.png"
 }
 images {
-  image: "/image sources/borders/border_left_2.png"
+  image: "/sources/image_sources/borders/border_left_2.png"
 }
 animations {
   id: "chest_open"
   images {
-    image: "/image sources/chest/chest_open_1.png"
+    image: "/sources/image_sources/chest/chest_open_1.png"
   }
   images {
-    image: "/image sources/chest/chest_open_2.png"
+    image: "/sources/image_sources/chest/chest_open_2.png"
   }
   images {
-    image: "/image sources/chest/chest_open_3.png"
+    image: "/sources/image_sources/chest/chest_open_3.png"
   }
   images {
-    image: "/image sources/chest/chest_open_4.png"
+    image: "/sources/image_sources/chest/chest_open_4.png"
   }
   playback: PLAYBACK_LOOP_FORWARD
   fps: 5
@@ -26,16 +26,16 @@ animations {
 animations {
   id: "banner"
   images {
-    image: "/image sources/flag/flag_1.png"
+    image: "/sources/image_sources/flag/flag_1.png"
   }
   images {
-    image: "/image sources/flag/flag_2.png"
+    image: "/sources/image_sources/flag/flag_2.png"
   }
   images {
-    image: "/image sources/flag/flag_3.png"
+    image: "/sources/image_sources/flag/flag_3.png"
   }
   images {
-    image: "/image sources/flag/flag_4.png"
+    image: "/sources/image_sources/flag/flag_4.png"
   }
   playback: PLAYBACK_LOOP_FORWARD
   fps: 5
@@ -45,16 +45,16 @@ animations {
 animations {
   id: "candle"
   images {
-    image: "/image sources/torch/candlestick_2_1.png"
+    image: "/sources/image_sources/torch/candlestick_2_1.png"
   }
   images {
-    image: "/image sources/torch/candlestick_2_2.png"
+    image: "/sources/image_sources/torch/candlestick_2_2.png"
   }
   images {
-    image: "/image sources/torch/candlestick_2_3.png"
+    image: "/sources/image_sources/torch/candlestick_2_3.png"
   }
   images {
-    image: "/image sources/torch/candlestick_2_4.png"
+    image: "/sources/image_sources/torch/candlestick_2_4.png"
   }
   playback: PLAYBACK_LOOP_FORWARD
   fps: 5
@@ -64,7 +64,7 @@ animations {
 animations {
   id: "torch_unlit"
   images {
-    image: "/image sources/torch/side_torch_0.png"
+    image: "/sources/image_sources/torch/side_torch_0.png"
   }
   playback: PLAYBACK_NONE
   fps: 5
@@ -74,16 +74,16 @@ animations {
 animations {
   id: "torch_lit"
   images {
-    image: "/image sources/torch/side_torch_1.png"
+    image: "/sources/image_sources/torch/side_torch_1.png"
   }
   images {
-    image: "/image sources/torch/side_torch_2.png"
+    image: "/sources/image_sources/torch/side_torch_2.png"
   }
   images {
-    image: "/image sources/torch/side_torch_3.png"
+    image: "/sources/image_sources/torch/side_torch_3.png"
   }
   images {
-    image: "/image sources/torch/side_torch_4.png"
+    image: "/sources/image_sources/torch/side_torch_4.png"
   }
   playback: PLAYBACK_LOOP_FORWARD
   fps: 5
@@ -93,16 +93,16 @@ animations {
 animations {
   id: "coin"
   images {
-    image: "/image sources/coin/coin_1.png"
+    image: "/sources/image_sources/coin/coin_1.png"
   }
   images {
-    image: "/image sources/coin/coin_2.png"
+    image: "/sources/image_sources/coin/coin_2.png"
   }
   images {
-    image: "/image sources/coin/coin_3.png"
+    image: "/sources/image_sources/coin/coin_3.png"
   }
   images {
-    image: "/image sources/coin/coin_4.png"
+    image: "/sources/image_sources/coin/coin_4.png"
   }
   playback: PLAYBACK_LOOP_FORWARD
   fps: 5
@@ -112,16 +112,16 @@ animations {
 animations {
   id: "small_chest_open"
   images {
-    image: "/image sources/mini_chest/mini_chest_open_1.png"
+    image: "/sources/image_sources/mini_chest/mini_chest_open_1.png"
   }
   images {
-    image: "/image sources/mini_chest/mini_chest_open_2.png"
+    image: "/sources/image_sources/mini_chest/mini_chest_open_2.png"
   }
   images {
-    image: "/image sources/mini_chest/mini_chest_open_3.png"
+    image: "/sources/image_sources/mini_chest/mini_chest_open_3.png"
   }
   images {
-    image: "/image sources/mini_chest/mini_chest_open_4.png"
+    image: "/sources/image_sources/mini_chest/mini_chest_open_4.png"
   }
   playback: PLAYBACK_LOOP_FORWARD
   fps: 5

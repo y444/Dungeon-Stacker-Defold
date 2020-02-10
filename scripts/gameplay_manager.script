@@ -6,6 +6,7 @@ local speedup_factor = 0.85
 local panels = {}
 local gameplay_started = false
 local field_reset = true
+local hero_url = nil
 
 local function reset_gamefield(self)
 	go.delete(panels, true)
@@ -16,7 +17,9 @@ local function reset_gamefield(self)
 	go.set("/HUD#hud", "time", starting_time)
 	msg.post("/torches#torches", "lightup", {amount = 0})
 	field_reset = true
-	
+	hero_id = factory.create("#hero_factory", vmath.vector3(72, 16, 8))
+	hero_url = msg.url(hero_id)
+	hero_url.fragment = "hero"
 end
 
 local function start_gameplay(self)
@@ -28,6 +31,11 @@ local function stop_gameplay(self)
 	go.set("/HUD#hud", "time_is_ticking", false)
 	gameplay_started = false
 	field_reset = false
+	--TEMP
+	if (hero_url ~= nil) then
+		go.delete(hero_url)
+		hero_id = nil
+	end
 end
 
 local function get_stop_pos(stop_x)
@@ -68,6 +76,13 @@ local function change_length(self)
 	if self.length < 0 then self.length = 0 end
 end
 
+local function get_hero_dest(self, last_panel)
+	local last_panel_pos = go.get_position(last_panel)
+	print("destination")
+	print(last_panel_pos)
+	return last_panel_pos
+end
+
 local function spawn_panel(self)
 	local panel_properties = {row = self.row, length = self.length, speed = self.speed}
 	local panel_id = factory.create("#panel_factory", nil, nil, panel_properties)
@@ -104,6 +119,7 @@ function on_input(self, action_id, action)
 			else
 				stop_gameplay(self)
 			end
+			--msg.post(hero_url, "move", {dest = get_hero_dest(self, last_panel)})
 		end
 		if #panels < 15 and self.length ~= 0 then
 			spawn_panel(self)

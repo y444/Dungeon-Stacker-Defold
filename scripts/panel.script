@@ -69,11 +69,30 @@ end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("trim") then
+		----
+		pprint(message.dead)
+		local trim_left = 0
+		for i = 1, #message.dead do
+			--FIXME
+			if (message.dead[i] < #self.blocks) then
+				local pos = go.get_position()
+				local new_pos = pos + vmath.vector3(16, 0, 0)
+				go.set_position(new_pos)
+				trim_left = trim_left + 1
+			end
+		end
+		print(trim_left)
+		----
 		for i = #message.dead, 1, -1 do
 			go.delete(self.blocks[message.dead[i]], true)
 			table.remove(self.blocks,message.dead[i])
 		end
 		self.length = self.length - #message.dead
+		for i = 1, #self.blocks do
+			local block_pos = go.get_position(self.blocks[i])
+			local new_block_pos = block_pos - vmath.vector3(16 * trim_left, 0, 0)
+			go.set_position(new_block_pos, self.blocks[i])
+		end
 		if self.length < 0 then self.length = 0 end
 		if self.length > 0 then make_borders(self) end
 	end

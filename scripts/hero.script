@@ -1,0 +1,17 @@
+go.property("is_moving", false)
+
+function init(self)
+	-- Add initialization code here
+	-- Remove this function if not needed
+end
+
+function update(self, dt)
+	-- Add update code here
+	-- Remove this function if not needed
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("move") then
+		go.animate(".", "position", go.PLAYBACK_ONCE_FORWARD, message.dest, go.EASING_LINEAR, 0.5)
+	end
+end

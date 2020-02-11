@@ -1,17 +1,26 @@
-go.property("is_moving", false)
-
 function init(self)
-	-- Add initialization code here
-	-- Remove this function if not needed
+	self.is_moving = false
+	self.move_targets = {}
+end
+
+local function stop_moving(self)
+	self.is_moving = false
+	table.remove(self.move_targets, 1)
+end
+
+local function start_moving(self)
+	go.animate(".", "position", go.PLAYBACK_ONCE_FORWARD, go.get_position(self.move_targets[1].target_panel), go.EASING_LINEAR, 1, 0, stop_moving(self))
 end
 
 function update(self, dt)
-	-- Add update code here
-	-- Remove this function if not needed
+	if #self.move_targets ~= 0 and not self.is_moving then
+		start_moving(self)
+		is_moving = true
+	end
 end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("move") then
-		go.animate(".", "position", go.PLAYBACK_ONCE_FORWARD, message.dest, go.EASING_LINEAR, 0.5)
+		table.insert(self.move_targets, {target_panel = message.target_panel, target_length = message.target_length})
 	end
 end

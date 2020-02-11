@@ -106,6 +106,7 @@ function on_input(self, action_id, action)
 			go.set(last_panel, "is_moving", false)
 			go.set(last_panel, "stop_pos", get_stop_pos(go.get_position(last_panel).x))
 			change_length(self)
+			msg.post(hero_url, "move", {target_panel = last_panel, target_length = self.length})
 			if self.length ~= 0 then
 				msg.post("/torches#torches", "lightup", {amount = self.row}) 
 				raise_level(self)

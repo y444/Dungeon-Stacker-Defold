@@ -11,11 +11,6 @@ local function stop_moving(self)
 	self.move_dir = vmath.vector3()
 end
 
-local function start_moving(self)
-	is_moving = true
-	go.animate(".", "position", go.PLAYBACK_ONCE_FORWARD, go.get_position(self.move_targets[1].target_panel), go.EASING_LINEAR, 1, 0, stop_moving(self))
-end
-
 function update(self, dt)
 	if #self.move_targets ~= 0 and not self.is_moving then
 		--check if there's at least one block directly above the hero, if so, start moving towards it
@@ -39,7 +34,11 @@ function update(self, dt)
 				self.move_dir = self.move_dir + vmath.vector3(0, 8, 0)
 			end
 		else
-			--TODO: finalize movement
+			if self.move_dir.y > 0 then
+				go.set(".", "position.y", go.get(".", "position.y") + self.move_speed)
+				self.move_dir.y = self.move_dir.y - self.move_speed
+			end
+			if self.move_dir == vmath.vector3() then stop_moving(self) end
 			print(self.move_dir)
 		end
 	end

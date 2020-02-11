@@ -1,21 +1,47 @@
 function init(self)
 	self.is_moving = false
 	self.move_targets = {}
+	self.move_dir = vmath.vector3()
+	self.move_speed = 0.25
 end
 
 local function stop_moving(self)
 	self.is_moving = false
 	table.remove(self.move_targets, 1)
+	self.move_dir = vmath.vector3()
 end
 
 local function start_moving(self)
+	is_moving = true
 	go.animate(".", "position", go.PLAYBACK_ONCE_FORWARD, go.get_position(self.move_targets[1].target_panel), go.EASING_LINEAR, 1, 0, stop_moving(self))
 end
 
 function update(self, dt)
 	if #self.move_targets ~= 0 and not self.is_moving then
-		start_moving(self)
-		is_moving = true
+		--check if there's at least one block directly above the hero, if so, start moving towards it
+		--if not, check if there's a block on the up left, if there's then start moving towards left
+		--if not, check if there's a block on the up right, if there's then start moving towards right
+		--repeat until reached target block
+		-- when reached - stop moving
+		local hero_x = go.get(".", "position.x")
+		if self.move_dir == vmath.vector3() then
+			if self.move_targets[1].target_length > 1 then
+				self.move_dir = vmath.vector3(0, 16, 0)
+			else
+				local target_x = go.get_position(self.move_targets[1].target_panel).x
+				if target_x < hero_x then
+					self.move_dir = vmath.vector3(-16, 16, 0)
+				elseif target_x > hero_x then
+					self.move_dir = vmath.vector3(16, 16, 0)
+				end
+			end
+			if go.get(".", "position.y") == 16 then
+				self.move_dir = self.move_dir + vmath.vector3(0, 8, 0)
+			end
+		else
+			--TODO: finalize movement
+			print(self.move_dir)
+		end
 	end
 end
 

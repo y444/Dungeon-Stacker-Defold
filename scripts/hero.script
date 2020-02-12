@@ -31,9 +31,7 @@ function update(self, dt)
 			if go.get(".", "position.y") == 16 then
 				self.move_dir = self.move_dir + vmath.vector3(0, 8, 0)
 			end
-			--sprite.set_hflip("#sprite", self.move_dir.x < 0)
 		else
-			--ADD tick here
 			if self.timer <= 0 then
 				self.timer = self.delay
 				if self.move_dir.x ~= 0 then
@@ -52,8 +50,6 @@ function update(self, dt)
 				if self.move_dir.x > 0 then sprite.set_hflip("#sprite", false) end
 			end
 			self.timer = self.timer - dt
-			print(self.timer)
-			-- STOP ADD tick
 			if self.move_dir == vmath.vector3() then stop_moving(self) end
 		end
 	end

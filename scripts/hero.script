@@ -27,6 +27,7 @@ function update(self, dt)
 				end
 			end
 			if go.get(".", "position.y") == 16 then self.move_dir.y = self.move_dir.y + 8 end
+			if go.get(".", "position.y") == 280 then self.move_dir.y = self.move_dir.y - 8 end
 		else
 			if self.timer <= 0 then
 				self.timer = self.delay
@@ -54,5 +55,9 @@ end
 function on_message(self, message_id, message, sender)
 	if message_id == hash("move") then
 		table.insert(self.move_targets, {target_panel = message.target_panel, target_length = message.target_length})
+	end
+	if message_id == hash("stop") then
+		self.is_moving = false
+		self.move_targets = {}
 	end
 end

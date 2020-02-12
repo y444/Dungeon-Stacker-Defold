@@ -105,6 +105,13 @@ function on_input(self, action_id, action)
 			raise_level(self)
 			msg.post(hero_url, "move", {target_panel = panels[#panels], target_length = self.length})
 			if self.row > 15 or self.length == 0 then
+				if self.row > 15 then
+					msg.post(hero_url, "move", {target_panel = "/chest", target_length = 3})
+					msg.post(hero_url, "move", {target_panel = "/chest", target_length = 1})
+				end
+				if self.length == 0 then
+					msg.post(hero_url, "stop")
+				end
 				stop_gameplay(self)
 				return
 			end

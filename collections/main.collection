@@ -4,7 +4,7 @@ instances {
   prototype: "/game_objects/chest.go"
   position {
     x: 72.0
-    y: 296.0
+    y: 288.0
     z: 0.0
   }
   rotation {

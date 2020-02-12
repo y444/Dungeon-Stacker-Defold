@@ -7,6 +7,7 @@ local panels = {}
 local gameplay_started = false
 local field_reset = true
 local hero_url = nil
+local is_moving = false
 
 local function respawn_hero(self)
 	if hero_url ~= nil then go.delete(self.hero_id) end
@@ -97,17 +98,17 @@ function on_input(self, action_id, action)
 		if not gameplay_started then
 			start_gameplay(self)
 		end
-		if panels[#panels] and go.get(panels[#panels], "is_moving") then
+		if #panels > 0 and go.get(panels[#panels], "is_moving") then
 			go.set(panels[#panels], "is_moving", false)
 			go.set(panels[#panels], "stop_pos", (go.get_position(panels[#panels]).x - 8) / 16)
 			change_length(self)
 			raise_level(self)
 			msg.post(hero_url, "move", {target_panel = panels[#panels], target_length = self.length})
+			if self.row > 15 or self.length == 0 then
+				stop_gameplay(self)
+				return
+			end
 		end
-		if #panels == 15 or self.length == 0 then
-			stop_gameplay(self)
-		else
-			spawn_panel(self)
-		end
+		spawn_panel(self)
 	end
 end

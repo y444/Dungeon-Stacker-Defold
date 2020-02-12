@@ -17,20 +17,16 @@ function update(self, dt)
 	if #self.move_targets ~= 0 and not self.is_moving then
 		local hero_x = go.get(".", "position.x")
 		if self.move_dir == vmath.vector3() then
-			if self.move_targets[1].target_length > 1 then
-				self.move_dir = vmath.vector3(0, 16, 0)
-			else
-				local target_x = go.get_position(self.move_targets[1].target_panel).x
+			local target_x = go.get_position(self.move_targets[1].target_panel).x
+			self.move_dir.y = 16
+			if self.move_targets[1].target_length == 1 then
 				if target_x < hero_x then
-					self.move_dir = vmath.vector3(-16, 16, 0)
+					self.move_dir.x  = -16
 				elseif target_x > hero_x then
-					self.move_dir = vmath.vector3(16, 16, 0)
-				else self.move_dir = vmath.vector3(0, 16, 0)
+					self.move_dir.x = 16
 				end
 			end
-			if go.get(".", "position.y") == 16 then
-				self.move_dir = self.move_dir + vmath.vector3(0, 8, 0)
-			end
+			if go.get(".", "position.y") == 16 then self.move_dir.y = self.move_dir.y + 8 end
 		else
 			if self.timer <= 0 then
 				self.timer = self.delay

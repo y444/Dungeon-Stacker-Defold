@@ -2,7 +2,7 @@ local starting_row = 1
 local starting_length = 3
 local starting_speed = 0.5
 local starting_time = 15
-local speedup_factor = 0.85
+local speedup_factor = 1 --0.85
 local panels = {}
 local gameplay_started = false
 local field_reset = true
@@ -16,10 +16,15 @@ local function reset_gamefield(self)
 	self.speed = starting_speed
 	go.set("/HUD#hud", "time", starting_time)
 	msg.post("/torches#torches", "lightup", {amount = 0})
-	field_reset = true
-	hero_id = factory.create("#hero_factory", vmath.vector3(72, 16, 8))
-	hero_url = msg.url(hero_id)
+	if hero_url ~= nil then
+		go.delete(self.hero_id)
+		self.hero_id = nil
+		self.hero_url = nil
+	end
+	self.hero_id = factory.create("#hero_factory", vmath.vector3(72, 16, 8))
+	hero_url = msg.url(self.hero_id)
 	hero_url.fragment = "hero"
+	field_reset = true
 end
 
 local function start_gameplay(self)
@@ -31,11 +36,6 @@ local function stop_gameplay(self)
 	go.set("/HUD#hud", "time_is_ticking", false)
 	gameplay_started = false
 	field_reset = false
-	--TEMP
-	if (hero_url ~= nil) then
-		go.delete(hero_url)
-		hero_id = nil
-	end
 end
 
 local function get_stop_pos(stop_x)
@@ -106,9 +106,9 @@ function on_input(self, action_id, action)
 			go.set(last_panel, "is_moving", false)
 			go.set(last_panel, "stop_pos", get_stop_pos(go.get_position(last_panel).x))
 			change_length(self)
-			msg.post(hero_url, "move", {target_panel = last_panel, target_length = self.length})
 			if self.length ~= 0 then
-				msg.post("/torches#torches", "lightup", {amount = self.row}) 
+				msg.post("/torches#torches", "lightup", {amount = self.row})
+				msg.post(hero_url, "move", {target_panel = last_panel, target_length = self.length})
 				raise_level(self)
 			else
 				stop_gameplay(self)

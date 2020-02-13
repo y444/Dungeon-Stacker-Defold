@@ -15,7 +15,12 @@ end
 
 local function spawn_blocks(self)
 	self.blocks = {}
-	local random_block_number = math.random(self.length)
+	local random_block_number = 0
+	if (self.row == 1 or self.row == 11) and self.length == 3 then
+		random_block_number = 2
+	else
+		random_block_number = math.random(self.length)
+	end
 	for i = 1, self.length do
 		local selected_reward = 0
 		if i == random_block_number then

@@ -8,6 +8,7 @@ local gameplay_started = false
 local field_reset = true
 local hero_url = nil
 local is_moving = false
+local score = 0
 
 local function respawn_hero(self)
 	if hero_url ~= nil then go.delete(self.hero_id) end
@@ -21,6 +22,7 @@ local function reset_gamefield(self)
 	self.row = starting_row
 	self.length = starting_length
 	self.speed = starting_speed
+	score = 0
 	go.set("/HUD#hud", "time", starting_time)
 	msg.post("/torches#torches", "lightup", {amount = 0})
 	respawn_hero(self)
@@ -117,5 +119,11 @@ function on_input(self, action_id, action)
 			end
 		end
 		spawn_panel(self)
+	end
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("collected") then
+		score = score + message.amount
 	end
 end

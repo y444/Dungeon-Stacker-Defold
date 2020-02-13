@@ -3,7 +3,7 @@ local function start_chasing(self)
 end
 
 	function init(self)
-		sprite.play_flipbook("#sprite", "skull_appear", sprite.play_flipbook("#sprite", "skull_idle"))
+		sprite.play_flipbook("#sprite", "skull_appear", function() sprite.play_flipbook("#sprite", "skull_idle") end)
 	end
 
 function update(self, dt)

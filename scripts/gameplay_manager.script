@@ -79,7 +79,7 @@ local function spawn_panel(self)
 end
 
 local function raise_level(self)
-	msg.post("/torches#torches", "lightup", {amount = self.row})
+	if self.length > 0 then msg.post("/torches#torches", "lightup", {amount = self.row}) end
 	self.row = self.row + 1
 	self.speed = self.speed * speedup_factor
 end

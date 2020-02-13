@@ -7,6 +7,7 @@ local panels = {}
 local gameplay_started = false
 local field_reset = true
 local hero_url = nil
+local skull_url = nil
 local is_moving = false
 local score = 0
 
@@ -82,6 +83,12 @@ local function spawn_panel(self)
 	table.insert(panels, msg.url(nil, panel_id, "panel"))
 end
 
+local function spawn_skull(self)
+	if skull_url ~= nil then go.delete(self.skull_id) end
+	self.skull_id = factory.create("#skull_factory", vmath.vector3(72, 16, 8))
+	skull_url = msg.url(nil, self.skull_id, "skull")
+end
+
 local function raise_level(self)
 	if self.length > 0 then msg.post("/torches#torches", "lightup", {amount = self.row}) end
 	self.row = self.row + 1
@@ -128,5 +135,8 @@ function on_message(self, message_id, message, sender)
 	if message_id == hash("collected") then
 		score = score + message.amount
 		msg.post("/HUD#hud", "update_score", {amount = score})
+	end
+	if message_id == hash("time_up") then
+		spawn_skull(self)
 	end
 end

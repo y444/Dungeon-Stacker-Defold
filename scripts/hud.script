@@ -1,4 +1,5 @@
 go.property("time_is_ticking", false)
+go.property("skull_is_activated", false)
 go.property("time", 0)
 
 local function shake(self, url)
@@ -36,12 +37,12 @@ function update(self, dt)
 			end
 		end
 	end
-	if self.time <= 0 then
+	if self.time <= 0 and self.time_is_ticking then
 		self.time = 0
 		self.time_is_ticking = false
 		go.set("/skull#skull_label", "color", self.red_color)
 		go.set("/skull#skull_mask", "tint.w", 1)
-		-- TODO: send a message to the manager
+		msg.post("/gameplay_manager#gameplay_manager", "time_up")
 	end
 end
 

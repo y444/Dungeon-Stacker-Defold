@@ -159,6 +159,38 @@ animations {
   flip_horizontal: 0
   flip_vertical: 0
 }
+animations {
+  id: "skull_idle"
+  images {
+    image: "/assets/image_sources/skull/skull_v2_1.png"
+  }
+  images {
+    image: "/assets/image_sources/skull/skull_v2_2.png"
+  }
+  images {
+    image: "/assets/image_sources/skull/skull_v2_3.png"
+  }
+  images {
+    image: "/assets/image_sources/skull/skull_v2_4.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 5
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "skull_appear"
+  images {
+    image: "/assets/image_sources/skull/skull_v2_0.png"
+  }
+  images {
+    image: "/assets/image_sources/skull/skull_v2_1.png"
+  }
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 5
+  flip_horizontal: 0
+  flip_vertical: 0
+}
 margin: 0
 extrude_borders: 0
 inner_padding: 0

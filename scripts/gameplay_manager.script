@@ -24,6 +24,7 @@ local function reset_gamefield(self)
 	self.speed = starting_speed
 	score = 0
 	go.set("/HUD#hud", "time", starting_time)
+	label.set_text("/money#money_label", 0)
 	msg.post("/torches#torches", "lightup", {amount = 0})
 	respawn_hero(self)
 	field_reset = true
@@ -38,6 +39,7 @@ local function stop_gameplay(self)
 	go.set("/HUD#hud", "time_is_ticking", false)
 	gameplay_started = false
 	field_reset = false
+	--TODO: stop moving panels
 end
 
 local function change_length(self)
@@ -125,5 +127,6 @@ end
 function on_message(self, message_id, message, sender)
 	if message_id == hash("collected") then
 		score = score + message.amount
+		msg.post("/HUD#hud", "update_score", {amount = score})
 	end
 end

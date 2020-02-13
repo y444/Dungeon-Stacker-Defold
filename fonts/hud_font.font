@@ -1,4 +1,4 @@
-font: "/sources/font_sources/Alkhemikal.fnt"
+font: "/assets/font_sources/Alkhemikal.fnt"
 material: "/materials/label-fnt-crisp.material"
 size: 16
 antialias: 0

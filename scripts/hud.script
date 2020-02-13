@@ -8,18 +8,20 @@ local function shake(self, url)
 	go.animate(url, "position", go.PLAYBACK_ONCE_FORWARD, pos, go.EASING_OUTCUBIC, 0.5)
 end
 
-local function blink_red(self)
-	go.set("/skull#skull_label", "color", self.red_color)
-	go.animate("/skull#skull_label", "color", go.PLAYBACK_ONCE_FORWARD, self.original_color, go.EASING_OUTCUBIC, 0.2)
-	go.set("/skull#skull_mask", "tint.w", 1)
-	go.animate("/skull#skull_mask", "tint.w", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_OUTCUBIC, 0.2)
+local function blink(self, label_url, mask_url, color)
+	go.set(label_url, "color", color)
+	go.animate(label_url, "color", go.PLAYBACK_ONCE_FORWARD, self.original_color, go.EASING_OUTCUBIC, 0.2)
+	go.set(mask_url, "tint.w", 1)
+	go.animate(mask_url, "tint.w", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_OUTCUBIC, 0.2)
 end
 
 function init(self)
 	self.rounded_time = 0
+	self.yellow_color = vmath.vector4(1, 0.847058, 0, 1)
 	self.red_color = vmath.vector4(0.76078431, 0.26666666, 0.27058823, 1)
 	self.original_color = vmath.vector4(0.90196079015732, 0.90196079015732, 0.90196079015732, 1)
 	go.set("/skull#skull_mask", "tint.w", 0)
+	go.set("/money#money_mask", "tint.w", 0)
 end
 
 function update(self, dt)
@@ -29,7 +31,7 @@ function update(self, dt)
 			self.rounded_time = math.abs(math.ceil(self.time))
 			label.set_text("/skull#skull_label", self.rounded_time)
 			if self.rounded_time ~= 0 then
-				blink_red(self)
+				blink(self, "/skull#skull_label", "/skull#skull_mask", self.red_color)
 				shake(self, "/skull")
 			end
 		end
@@ -44,5 +46,9 @@ function update(self, dt)
 end
 
 function on_message(self, message_id, message, sender)
-
+	if message_id == hash("update_score") then
+		label.set_text("/money#money_label", message.amount)
+		blink(self, "/money#money_label", "/money#money_mask", self.yellow_color)
+		shake(self, "/money")
+	end
 end

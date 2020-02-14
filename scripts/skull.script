@@ -1,11 +1,22 @@
 function init(self)
 	self.is_chasing = false
 	self.target = nil
+	self.move_speed = 8
+	self.timer = 0
+	self.delay = 1
 	sprite.play_flipbook("#sprite", "skull_appear", function() sprite.play_flipbook("#sprite", "skull_idle") self.is_chasing = true end)
 end
 
 function update(self, dt)
-	
+	if self.is_chasing then
+		if self.timer <= 0 then
+			self.timer = self.delay
+			local distance = go.get_position(self.target) - go.get_position()
+			local normalized_distance = vmath.normalize(distance) * self.move_speed
+			go.set_position(go.get_position() + normalized_distance)
+		end
+		self.timer = self.timer - dt
+	end
 end
 
 function on_message(self, message_id, message, sender)
@@ -13,6 +24,7 @@ function on_message(self, message_id, message, sender)
 		self.target = message.target
 	end
 	if message_id == hash("trigger_response") and message.enter == true and message.other_group == hash("hero") then
+		self.is_chasing = false
 		msg.post("/gameplay_manager#gameplay_manager", "hero_killed")
 		sprite.play_flipbook("#sprite", "skull_disappear", function() go.delete() end)
 	end

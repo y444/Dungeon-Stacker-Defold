@@ -147,6 +147,7 @@ function on_message(self, message_id, message, sender)
 		spawn_skull(self)
 	end
 	if message_id == hash("hero_killed") then
+		skull_url = nil
 		stop_gameplay(self)
 	end
 end

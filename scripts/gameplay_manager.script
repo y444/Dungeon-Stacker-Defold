@@ -22,7 +22,7 @@ local function kill_hero(self)
 end
 
 local function spawn_skull(self)
-	self.skull_id = factory.create("#skull_factory", vmath.vector3(72, 16, 8))
+	self.skull_id = factory.create("#skull_factory", vmath.vector3(72, 8, 8))
 	skull_url = msg.url(nil, self.skull_id, "skull")
 	msg.post(skull_url, "set_target", {target = self.hero_id})
 end
@@ -37,7 +37,7 @@ local function reset_gamefield(self)
 	go.set("/HUD#hud", "time", starting_time)
 	label.set_text("/money#money_label", 0)
 	msg.post("/torches#torches", "lightup", {amount = 0})
-	if skull ~= nil then go.delete(skull) end
+	if skull_url ~= nil then print("deleting skull") go.delete(skull_url) end
 	spawn_hero(self)
 	field_reset = true
 end

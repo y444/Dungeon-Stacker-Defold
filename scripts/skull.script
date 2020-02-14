@@ -1,14 +1,10 @@
-local function start_chasing(self)
-	sprite.play_flipbook("#sprite", "skull_idle")
+function init(self)
+	self.is_chasing = false
+	sprite.play_flipbook("#sprite", "skull_appear", function() sprite.play_flipbook("#sprite", "skull_idle") self.is_chasing = true end)
 end
 
-	function init(self)
-		sprite.play_flipbook("#sprite", "skull_appear", function() sprite.play_flipbook("#sprite", "skull_idle") end)
-	end
-
 function update(self, dt)
-	-- Add update code here
-	-- Remove this function if not needed
+	
 end
 
 function on_message(self, message_id, message, sender)

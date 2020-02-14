@@ -7,7 +7,7 @@ local panels = {}
 local gameplay_started = false
 local field_reset = true
 local hero_url = nil
-local skull_url = nil
+local skull = nil
 local is_moving = false
 local score = 0
 
@@ -27,6 +27,7 @@ local function reset_gamefield(self)
 	go.set("/HUD#hud", "time", starting_time)
 	label.set_text("/money#money_label", 0)
 	msg.post("/torches#torches", "lightup", {amount = 0})
+	if skull then go.delete(skull) end
 	respawn_hero(self)
 	field_reset = true
 end
@@ -84,9 +85,7 @@ local function spawn_panel(self)
 end
 
 local function spawn_skull(self)
-	if skull_url ~= nil then go.delete(self.skull_id) end
-	self.skull_id = factory.create("#skull_factory", vmath.vector3(72, 16, 8))
-	skull_url = msg.url(nil, self.skull_id, "skull")
+	skull = factory.create("#skull_factory", vmath.vector3(72, 16, 8))
 end
 
 local function raise_level(self)

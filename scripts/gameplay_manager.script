@@ -1,20 +1,30 @@
 local starting_row = 1
 local starting_length = 3
 local starting_speed = 0.5
-local starting_time = 15
+local starting_time = 3 --15
 local speedup_factor = 0.85
 local panels = {}
 local gameplay_started = false
 local field_reset = true
 local hero_url = nil
-local skull = nil
+local skull_url = nil
 local is_moving = false
 local score = 0
 
-local function respawn_hero(self)
-	if hero_url ~= nil then go.delete(self.hero_id) end
+local function spawn_hero(self)
 	self.hero_id = factory.create("#hero_factory", vmath.vector3(72, 16, 8))
 	hero_url = msg.url(nil, self.hero_id, "hero")
+end
+
+local function kill_hero(self)
+	--TEMP, TODO: animate
+	go.delete(hero_url)
+end
+
+local function spawn_skull(self)
+	self.skull_id = factory.create("#skull_factory", vmath.vector3(72, 16, 8))
+	skull_url = msg.url(nil, self.skull_id, "skull")
+	msg.post(skull_url, "set_target", {target = self.hero_id})
 end
 
 local function reset_gamefield(self)
@@ -27,8 +37,8 @@ local function reset_gamefield(self)
 	go.set("/HUD#hud", "time", starting_time)
 	label.set_text("/money#money_label", 0)
 	msg.post("/torches#torches", "lightup", {amount = 0})
-	if skull then go.delete(skull) end
-	respawn_hero(self)
+	if skull ~= nil then go.delete(skull) end
+	spawn_hero(self)
 	field_reset = true
 end
 
@@ -38,10 +48,12 @@ local function start_gameplay(self)
 end
 
 local function stop_gameplay(self)
+	print("gameplay stopped")
 	go.set("/HUD#hud", "time_is_ticking", false)
+	kill_hero(self)
 	gameplay_started = false
 	field_reset = false
-	--TODO: stop moving panels
+	if #panels > 0 then go.set(panels[#panels], "is_moving", false) end
 end
 
 local function change_length(self)
@@ -82,10 +94,6 @@ local function spawn_panel(self)
 	local panel_properties = {row = self.row, length = self.length, speed = self.speed}
 	local panel_id = factory.create("#panel_factory", nil, nil, panel_properties)
 	table.insert(panels, msg.url(nil, panel_id, "panel"))
-end
-
-local function spawn_skull(self)
-	skull = factory.create("#skull_factory", vmath.vector3(72, 16, 8))
 end
 
 local function raise_level(self)
@@ -137,5 +145,8 @@ function on_message(self, message_id, message, sender)
 	end
 	if message_id == hash("time_up") then
 		spawn_skull(self)
+	end
+	if message_id == hash("hero_killed") then
+		stop_gameplay(self)
 	end
 end

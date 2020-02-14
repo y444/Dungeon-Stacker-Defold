@@ -1,5 +1,6 @@
 function init(self)
 	self.is_chasing = false
+	self.target = nil
 	sprite.play_flipbook("#sprite", "skull_appear", function() sprite.play_flipbook("#sprite", "skull_idle") self.is_chasing = true end)
 end
 
@@ -8,6 +9,11 @@ function update(self, dt)
 end
 
 function on_message(self, message_id, message, sender)
-	-- Add message-handling code here
-	-- Remove this function if not needed
+	if message_id == hash("set_target") then
+		self.target = message.target
+	end
+	if message_id == hash("trigger_response") and message.enter == true and message.other_group == hash("hero") then
+		msg.post("/gameplay_manager#gameplay_manager", "hero_killed")
+		sprite.play_flipbook("#sprite", "skull_disappear", function() go.delete() end)
+	end
 end

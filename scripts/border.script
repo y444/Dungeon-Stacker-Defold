@@ -1,7 +1,7 @@
 go.property("side", 0)
 
 function init(self)
-	self.left_border_images = {"border_left_1", "border_left_2"}
+	self.left_border_images = {"border_1", "border_2"}
 	self.random_left_border = self.left_border_images[math.random(#self.left_border_images)]
 	msg.post("#sprite_right", "disable")
 	msg.post("#sprite", "play_animation", {id = hash(self.random_left_border)})

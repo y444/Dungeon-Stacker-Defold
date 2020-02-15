@@ -1,8 +1,8 @@
 images {
-  image: "/assets/image_sources/borders/border_left_1.png"
+  image: "/assets/image_sources/borders/border_1.png"
 }
 images {
-  image: "/assets/image_sources/borders/border_left_2.png"
+  image: "/assets/image_sources/borders/border_2.png"
 }
 images {
   image: "/assets/image_sources/icons/bw_skull.png"

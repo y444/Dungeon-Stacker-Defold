@@ -1,4 +1,4 @@
-world = require("modules.world")
+local world = require("modules.world")
 
 local STARTING_ROW = 0
 local STARTING_COLUMN_LEFT = 3
@@ -12,9 +12,34 @@ local HERO_START_POS = vmath.vector3(72, 16, 8)
 local SKULL_START_POS = vmath.vector3(72, 8, 8)
 local GAMESTATE = { START = 1, PLAY = 2, WIN = 3, LOSE = 4, END = 5 }
 
-local function stop_panel(self)
+local function despawn_hero()
+	go.delete(world.hero) --replace with sending a message to play death animation and self-destruct
+	world.hero = nil
 end
 
+local function spawn_hero(self)
+	if world.hero ~= nil then despawn_hero(self) end
+	world.hero = factory.create("#hero_factory", HERO_START_POS)
+end
+
+local function despawn_panels(self)
+	go.delete(world.panels, true)
+	world.panels = {}
+end
+
+local function spawn_panel(self)
+	local panel_props = {row = world.row, length = world.length, speed = world.speed}
+	local panel = {}
+	local new_panel = factory.create("#panel_factory", nil, nil, panel_props)
+	table.insert(world.panels, new_panel)
+	world.panel_moving = true
+end
+
+local function stop_panel(self)
+	local last_panel = msg.url(nil, world.panels[#world.panels], "panel")
+	msg.post(last_panel, "stop", {target_column_left = world.column_left, target_column_right = world.column_right})
+	world.panel_moving = false
+end
 
 local function despawn_skull(self)
 	if world.skull ~= nil then go.delete(world.skull) end --replace with sending a message to play death animation and self-destruct
@@ -34,9 +59,9 @@ local function switch_gamestate(self, new_gamestate)
 		world.score = STARTING_SCORE
 		msg.post("/HUD#hud", "update_score", {score = world.score})
 		world.panel_moving = false
-		world.despawn_panels()
+		despawn_panels(self)
 		despawn_skull(self)
-		world.spawn_hero(HERO_START_POS)
+		spawn_hero(self)
 		world.gamestate = GAMESTATE.START
 	end
 	if new_gamestate == GAMESTATE.PLAY then
@@ -92,7 +117,7 @@ function on_input(self, action_id, action)
 				switch_gamestate(self, GAMESTATE.WIN)
 				return
 			end
-			world.spawn_panel()
+			spawn_panel(self)
 		end
 	end
 end

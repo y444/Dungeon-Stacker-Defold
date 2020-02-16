@@ -1,3 +1,5 @@
+local world = require("modules.world")
+
 go.property("row", 0)
 go.property("length", 0)
 go.property("speed", 0)
@@ -70,13 +72,17 @@ local function stop(self, target_column_left, target_column_right)
 		end
 	end
 	self.length = #self.blocks
-	print("panel own length:" .. self.length)
-	local new_column_left = (go.get_world_position(self.blocks[1]).x - 8) / 16
-	local new_column_right = new_column_left + self.length - 1
-	go.set("/gameplay_manager#gameplay_manager", "column_left", new_column_left)
-	go.set("/gameplay_manager#gameplay_manager", "column_right", new_column_right)
-	go.set("/gameplay_manager#gameplay_manager", "length", self.length)
-	-- msg.post("/gameplay_manager#gameplay_manager", "shorten", {length = self.length, column_left = new_column_left, column_right = new_column_right})
+	---
+	world.length = self.length
+	world.column_left = (go.get_world_position(self.blocks[1]).x - 8) / 16
+	world.column_right = world.column_left + self.length - 1
+	---
+	-- local new_column_left = (go.get_world_position(self.blocks[1]).x - 8) / 16
+	-- local new_column_right = new_column_left + self.length - 1
+	-- go.set("/gameplay_manager#gameplay_manager", "column_left", new_column_left)
+	-- go.set("/gameplay_manager#gameplay_manager", "column_right", new_column_right)
+	-- go.set("/gameplay_manager#gameplay_manager", "length", self.length)
+	-- -- msg.post("/gameplay_manager#gameplay_manager", "shorten", {length = self.length, column_left = new_column_left, column_right = new_column_right})
 	make_borders(self)
 end
 

@@ -2,7 +2,6 @@ go.property("row", 0)
 go.property("length", 0)
 go.property("speed", 0)
 go.property("is_moving", false)
-go.property("stop_pos", 0)
 
 local function setup_position(self)
 	self.left = vmath.vector3(24, 24 + self.row * 16, -4)
@@ -27,7 +26,8 @@ local function spawn_blocks(self)
 			selected_reward = 1
 			if self.row == 11 then selected_reward = 2 end
 		end
-		local block_id = factory.create("#block_factory", vmath.vector3((i - 1) * 16, 0, 0), nil, {reward = selected_reward})
+		local block_position = vmath.vector3((i - 1) * 16, 0, 0)
+		local block_id = factory.create("#block_factory", block_position, nil, {reward = selected_reward})
 		local block_url = msg.url(block_id)
 		block_url.fragment = "block"
 		table.insert(self.blocks, block_url)
@@ -53,6 +53,33 @@ local function make_borders(self)
 	end
 end
 
+local function stop(self, target_column_left, target_column_right)
+	self.is_moving = false
+	for i = #self.blocks, 1, -1 do
+		local column = (go.get_world_position(self.blocks[i]).x - 8) / 16
+		if column < target_column_left or column > target_column_right then
+			go.delete(self.blocks[i], true)
+			table.remove(self.blocks, i)
+		end
+	end
+	if go.get_position() ~= go.get_world_position(self.blocks[1]) then
+		local cor = go.get_position() - go.get_world_position(self.blocks[1])
+		go.set_position(go.get_position() - cor)
+		for i = 1, #self.blocks do
+			go.set_position(go.get_position(self.blocks[i]) + cor, self.blocks[i])
+		end
+	end
+	self.length = #self.blocks
+	print("panel own length:" .. self.length)
+	local new_column_left = (go.get_world_position(self.blocks[1]).x - 8) / 16
+	local new_column_right = new_column_left + self.length - 1
+	go.set("/gameplay_manager#gameplay_manager", "column_left", new_column_left)
+	go.set("/gameplay_manager#gameplay_manager", "column_right", new_column_right)
+	go.set("/gameplay_manager#gameplay_manager", "length", self.length)
+	-- msg.post("/gameplay_manager#gameplay_manager", "shorten", {length = self.length, column_left = new_column_left, column_right = new_column_right})
+	make_borders(self)
+end
+
 function init(self)
 	self.timer = self.speed
 	self.is_moving = true
@@ -72,35 +99,8 @@ function update(self, dt)
 	end
 end
 
-local function is_right_alive(self, dead)
-	for i = 1, #dead do
-		if dead[i] == #self.blocks then return false end
-	end
-	return true
-end
-
 function on_message(self, message_id, message, sender)
-	if message_id == hash("trim") then
-		local trim_left = 0
-		for i = 1, #message.dead do
-			if (is_right_alive(self, message.dead)) then
-				local pos = go.get_position()
-				local new_pos = pos + vmath.vector3(16, 0, 0)
-				go.set_position(new_pos)
-				trim_left = trim_left + 1
-			end
-		end
-		for i = #message.dead, 1, -1 do
-			go.delete(self.blocks[message.dead[i]], true)
-			table.remove(self.blocks,message.dead[i])
-		end
-		self.length = self.length - #message.dead
-		for i = 1, #self.blocks do
-			local block_pos = go.get_position(self.blocks[i])
-			local new_block_pos = block_pos - vmath.vector3(16 * trim_left, 0, 0)
-			go.set_position(new_block_pos, self.blocks[i])
-		end
-		if self.length < 0 then self.length = 0 end
-		if self.length > 0 then make_borders(self) end
+	if message_id == hash("stop") then
+		stop(self, message.target_column_left, message.target_column_right)
 	end
 end

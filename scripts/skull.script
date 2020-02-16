@@ -20,12 +20,8 @@ function update(self, dt)
 end
 
 function on_message(self, message_id, message, sender)
-	if message_id == hash("set_target") then
-		self.target = message.target
-	end
 	if message_id == hash("trigger_response") and message.enter == true and message.other_group == hash("hero") then
 		self.is_chasing = false
-		msg.post("/gameplay_manager#gameplay_manager", "hero_killed")
-		sprite.play_flipbook("#sprite", "skull_disappear", function() go.delete() end)
+		sprite.play_flipbook("#sprite", "skull_disappear", function() msg.post("/gameplay_manager#gameplay_manager", "killed") end)
 	end
 end

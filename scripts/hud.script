@@ -1,5 +1,9 @@
-go.property("time_is_ticking", false)
-go.property("skull_is_activated", false)
+local COLORS = {
+	RED_COLOR = vmath.vector4(0.76, 0.27, 0.27, 1),
+	YELLOW_COLOR = vmath.vector4(1, 0.85, 0, 1),
+	GREY_COLOR = vmath.vector4(0.90, 0.90, 0.90, 1)
+}
+
 go.property("time", 0)
 
 local function shake(self, url)
@@ -11,45 +15,31 @@ end
 
 local function blink(self, label_url, mask_url, color)
 	go.set(label_url, "color", color)
-	go.animate(label_url, "color", go.PLAYBACK_ONCE_FORWARD, self.original_color, go.EASING_OUTCUBIC, 0.2)
+	go.animate(label_url, "color", go.PLAYBACK_ONCE_FORWARD, COLORS.GREY_COLOR, go.EASING_OUTCUBIC, 0.2)
 	go.set(mask_url, "tint.w", 1)
 	go.animate(mask_url, "tint.w", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_OUTCUBIC, 0.2)
 end
 
 function init(self)
-	self.rounded_time = 0
-	self.yellow_color = vmath.vector4(1, 0.847058, 0, 1)
-	self.red_color = vmath.vector4(0.76078431, 0.26666666, 0.27058823, 1)
-	self.original_color = vmath.vector4(0.90196079015732, 0.90196079015732, 0.90196079015732, 1)
 	go.set("/skull#skull_mask", "tint.w", 0)
 	go.set("/money#money_mask", "tint.w", 0)
 end
 
-function update(self, dt)
-	if self.time_is_ticking then
-		self.time = self.time - dt
-		if self.rounded_time ~= math.ceil(self.time) then
-			self.rounded_time = math.abs(math.ceil(self.time))
-			label.set_text("/skull#skull_label", self.rounded_time)
-			if self.rounded_time ~= 0 then
-				blink(self, "/skull#skull_label", "/skull#skull_mask", self.red_color)
-				shake(self, "/skull")
-			end
-		end
-	end
-	if self.time <= 0 and self.time_is_ticking then
-		self.time = 0
-		self.time_is_ticking = false
-		go.set("/skull#skull_label", "color", self.red_color)
-		go.set("/skull#skull_mask", "tint.w", 1)
-		msg.post("/gameplay_manager#gameplay_manager", "time_up")
-	end
-end
-
 function on_message(self, message_id, message, sender)
 	if message_id == hash("update_score") then
-		label.set_text("/money#money_label", message.amount)
-		blink(self, "/money#money_label", "/money#money_mask", self.yellow_color)
+		label.set_text("/money#money_label", message.score)
+		blink(self, "/money#money_label", "/money#money_mask", COLORS.YELLOW_COLOR)
 		shake(self, "/money")
+	end
+	if message_id == hash("update_time") then
+		label.set_text("/skull#skull_label", message.time)
+		if message.time <= 3 then
+			go.set("/skull#skull_label", "color", COLORS.RED_COLOR)
+			go.set("/skull#skull_mask", "tint.w", 1)
+			shake(self, "/skull")
+		else
+			blink(self, "/skull#skull_label", "/skull#skull_mask", COLORS.RED_COLOR)
+			shake(self, "/skull")
+		end
 	end
 end

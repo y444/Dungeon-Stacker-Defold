@@ -1,10 +1,8 @@
 function on_message(self, message_id, message, sender)
 	if message_id == hash("lightup") then
 		for i = 1, 15 do
-			local left_torch_url = msg.url("torch_left_"..i)
-			local right_torch_url = msg.url("torch_right_"..i)
-			left_torch_url.fragment = "sprite"
-			right_torch_url.fragment = "sprite"
+			local left_torch_url = msg.url(nil, "torch_left_"..i, "sprite")
+			local right_torch_url = msg.url(nil, "torch_right_"..i, "sprite")
 			if i <= message.amount then
 				msg.post(left_torch_url, "play_animation", {id = hash("torch_lit")})
 				msg.post(right_torch_url, "play_animation", {id = hash("torch_lit")})

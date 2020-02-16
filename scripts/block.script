@@ -1,16 +1,22 @@
+local BLOCK_IMAGES = {"middle_block_1", "middle_block_2", "middle_block_3", "middle_block_4"}
+local REWARD_TYPES = {
+	COIN = 1,
+	SMALL_CHEST = 2,
+	CHEST = 3
+}
+
 go.property("reward", 0)
+go.property("column", 0)
 
 function init(self)
-	self.block_images = {"middle_block_1", "middle_block_2", "middle_block_3", "middle_block_4"}
-	self.random_block = self.block_images[math.random(#self.block_images)]
-	self.reward_factory = nil
-	msg.post("#border_sprite", "disable")
-	msg.post("#sprite", "play_animation", {id = hash(self.random_block)})
-	if self.reward == 1 then self.reward_factory = "#coin_factory"
-	elseif self.reward == 2 then self.reward_factory = "#small_chest_factory"
+	self.random_block_image = BLOCK_IMAGES[math.random(#BLOCK_IMAGES)]
+	msg.post("#border_sprite", hash("disable"))
+	msg.post("#sprite", hash("play_animation"), {id = hash(self.random_block_image)})
+	if self.reward == REWARD_TYPES.COIN then self.reward_factory = "#coin_factory"
+	elseif self.reward == REWARD_TYPES.SMALL_CHEST then self.reward_factory = "#small_chest_factory"
 	end
 	if self.reward_factory then
-		local reward_id = factory.create(self.reward_factory, vmath.vector3(0, 0, 1))
-		go.set_parent(reward_id, msg.url())
+		local reward = factory.create(self.reward_factory, vmath.vector3(0, 0, 1))
+		go.set_parent(reward, msg.url())
 	end
 end

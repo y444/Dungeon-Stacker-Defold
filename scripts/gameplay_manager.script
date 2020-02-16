@@ -1,153 +1,98 @@
-local starting_row = 1
-local starting_length = 3
-local starting_speed = 0.5
-local starting_time = 15
-local speedup_factor = 0.85
-local panels = {}
-local gameplay_started = false
-local field_reset = true
-local hero_url = nil
-local skull_url = nil
-local is_moving = false
-local score = 0
+world = require("modules.world")
 
-local function spawn_hero(self)
-	self.hero_id = factory.create("#hero_factory", vmath.vector3(72, 16, 8))
-	hero_url = msg.url(nil, self.hero_id, "hero")
+local STARTING_ROW = 0
+local STARTING_COLUMN_LEFT = 3
+local STARTING_COLUMN_RIGHT = 5
+local STARTING_LENGTH = 3
+local STARTING_SPEED = 0.588
+local STARTING_TIME = 15
+local STARTING_SCORE = 0
+local SPEEDUP_FACTOR = 0.85
+local HERO_START_POS = vmath.vector3(72, 16, 8)
+local SKULL_START_POS = vmath.vector3(72, 8, 8)
+local GAMESTATE = { START = 1, PLAY = 2, WIN = 3, LOSE = 4, END = 5 }
+
+local function stop_panel(self)
 end
 
-local function kill_hero(self)
-	--TEMP, TODO: animate
-	go.delete(hero_url)
+
+local function despawn_skull(self)
+	if world.skull ~= nil then go.delete(world.skull) end --replace with sending a message to play death animation and self-destruct
+	world.skull = nil
 end
 
-local function spawn_skull(self)
-	self.skull_id = factory.create("#skull_factory", vmath.vector3(72, 8, 8))
-	skull_url = msg.url(nil, self.skull_id, "skull")
-	msg.post(skull_url, "set_target", {target = self.hero_id})
-end
-
-local function reset_gamefield(self)
-	go.delete(panels, true)
-	panels = {}
-	self.row = starting_row
-	self.length = starting_length
-	self.speed = starting_speed
-	score = 0
-	go.set("/HUD#hud", "time", starting_time)
-	label.set_text("/money#money_label", 0)
-	msg.post("/torches#torches", "lightup", {amount = 0})
-	if skull_url ~= nil then print("deleting skull") go.delete(skull_url) end
-	spawn_hero(self)
-	field_reset = true
-end
-
-local function start_gameplay(self)
-	go.set("/HUD#hud", "time_is_ticking", true)
-	gameplay_started = true
-end
-
-local function stop_gameplay(self)
-	print("gameplay stopped")
-	go.set("/HUD#hud", "time_is_ticking", false)
-	kill_hero(self)
-	gameplay_started = false
-	field_reset = false
-	if #panels > 0 then go.set(panels[#panels], "is_moving", false) end
-end
-
-local function change_length(self)
-	local prev_stop_pos = 3
-	if self.row > 1 then prev_stop_pos = go.get(panels[#panels-1], "stop_pos") end
-	local prev_stop_blocks = {3, 4, 5}
-	if self.row > 1 then
-		prev_stop_blocks = {}
-		for i = prev_stop_pos, go.get(panels[#panels-1], "length") + prev_stop_pos - 1 do
-			table.insert(prev_stop_blocks, i)
-		end
+local function switch_gamestate(self, new_gamestate)
+	if new_gamestate == GAMESTATE.START
+	then
+		world.row = STARTING_ROW
+		world.column_left = STARTING_COLUMN_LEFT
+		world.column_right = STARTING_COLUMN_RIGHT
+		world.length = STARTING_LENGTH
+		world.speed = STARTING_SPEED
+		world.time = STARTING_TIME
+		msg.post("/HUD#hud", "update_time", {time = world.time})
+		world.score = STARTING_SCORE
+		msg.post("/HUD#hud", "update_score", {score = world.score})
+		world.panel_moving = false
+		world.despawn_panels()
+		despawn_skull(self)
+		world.spawn_hero(HERO_START_POS)
+		world.gamestate = GAMESTATE.START
 	end
-	local stop_pos = go.get(panels[#panels], "stop_pos")
-	local stop_blocks = {}
-	for i = stop_pos, go.get(panels[#panels], "length") + stop_pos - 1 do
-		table.insert(stop_blocks, i)
+	if new_gamestate == GAMESTATE.PLAY then
+		world.gamestate = GAMESTATE.PLAY
 	end
-	local dead_blocks = {}
-	for i = 1, #stop_blocks do
-		local block_dead = true
-		for j = 1, #prev_stop_blocks do
-			if stop_blocks[i] == prev_stop_blocks[j] then
-				block_dead = false
-				break
-			end
-		end
-		if block_dead then table.insert(dead_blocks, i) end
+	if new_gamestate == GAMESTATE.WIN then
+		switch_gamestate(self, GAMESTATE.END)
 	end
-	if stop_pos < prev_stop_pos then
-		go.set(panels[#panels], "stop_pos", prev_stop_pos)
+	if new_gamestate == GAMESTATE.LOSE then
+		switch_gamestate(self, GAMESTATE.END)
 	end
-	msg.post(panels[#panels], "trim", {dead = dead_blocks})
-	self.length = self.length - #dead_blocks
-	if self.length < 0 then self.length = 0 end
+	if new_gamestate == GAMESTATE.END then
+		
+		world.gamestate = GAMESTATE.END
+	end
 end
 
-local function spawn_panel(self)
-	local panel_properties = {row = self.row, length = self.length, speed = self.speed}
-	local panel_id = factory.create("#panel_factory", nil, nil, panel_properties)
-	table.insert(panels, msg.url(nil, panel_id, "panel"))
-end
-
-local function raise_level(self)
-	if self.length > 0 then msg.post("/torches#torches", "lightup", {amount = self.row}) end
-	self.row = self.row + 1
-	self.speed = self.speed * speedup_factor
+local function raise(self)
+	world.row = world.row + 1
+	world.speed = world.speed * SPEEDUP_FACTOR
 end
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
-	reset_gamefield(self)
+	switch_gamestate(self, GAMESTATE.START)
+end
+
+function update(self, dt)
+	
+end
+
+function on_message(self, message_id, message, sender)
+	
 end
 
 function on_input(self, action_id, action)
 	if action_id == hash("touch") and action.pressed then
-		if not field_reset then
-			reset_gamefield(self)
+		if world.gamestate == GAMESTATE.END then
+			switch_gamestate(self, GAMESTATE.START)
 			return
 		end
-		if not gameplay_started then
-			start_gameplay(self)
+		if world.gamestate == GAMESTATE.START then
+			switch_gamestate(self, GAMESTATE.PLAY)
 		end
-		if #panels > 0 and go.get(panels[#panels], "is_moving") then
-			go.set(panels[#panels], "is_moving", false)
-			go.set(panels[#panels], "stop_pos", (go.get_position(panels[#panels]).x - 8) / 16)
-			change_length(self)
-			raise_level(self)
-			msg.post(hero_url, "move", {target_panel = panels[#panels], target_length = self.length})
-			if self.row > 15 or self.length == 0 then
-				if self.row > 15 then
-					msg.post(hero_url, "move", {target_panel = "/chest", target_length = 3})
-					msg.post(hero_url, "move", {target_panel = "/chest", target_length = 1})
-				end
-				-- if self.length == 0 then
-				-- 	msg.post(hero_url, "stop")
-				-- end
-				stop_gameplay(self)
+		if world.gamestate == GAMESTATE.PLAY then
+			if #world.panels > 0 then stop_panel(self) end
+			if world.length == 0 then
+				switch_gamestate(self, GAMESTATE.LOSE)
 				return
 			end
+			raise(self)
+			if world.row == 16 then
+				switch_gamestate(self, GAMESTATE.WIN)
+				return
+			end
+			world.spawn_panel()
 		end
-		spawn_panel(self)
-	end
-end
-
-function on_message(self, message_id, message, sender)
-	if message_id == hash("collected") then
-		score = score + message.amount
-		msg.post("/HUD#hud", "update_score", {amount = score})
-	end
-	if message_id == hash("time_up") then
-		spawn_skull(self)
-	end
-	if message_id == hash("hero_killed") then
-		skull_url = nil
-		stop_gameplay(self)
 	end
 end

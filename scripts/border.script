@@ -1,13 +1,15 @@
+local BORDER_IMAGES = { "border_1", "border_2" }
+local BORDER_TYPES = { LEFT = 1, RIGHT = 2 }
+
 go.property("side", 0)
 
 function init(self)
-	self.left_border_images = {"border_1", "border_2"}
-	self.random_left_border = self.left_border_images[math.random(#self.left_border_images)]
-	msg.post("#sprite_right", "disable")
-	msg.post("#sprite", "play_animation", {id = hash(self.random_left_border)})
-	if self.side == 1 then
+	self.random_border = BORDER_IMAGES[math.random(#BORDER_IMAGES)]
+	msg.post("#sprite_right", hash("disable"))
+	msg.post("#sprite", hash("play_animation"), {id = hash(self.random_border)})
+	if self.side == BORDER_TYPES.LEFT then
 		sprite.set_hflip("#sprite", true)
-		msg.post("#sprite_right", "enable")
-		msg.post("#sprite_left", "disable")
+		msg.post("#sprite_right", hash("enable"))
+		msg.post("#sprite_left", hash("disable"))
 	end
 end

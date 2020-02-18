@@ -1,3 +1,5 @@
+--almost done, test reward
+
 local w = require("modules.world")
 
 local function shake(self, url)

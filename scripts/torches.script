@@ -1,3 +1,5 @@
+--done
+
 function on_message(self, message_id, message, sender)
 	if message_id == hash("lightup") then
 		for i = 1, 15 do

@@ -1,98 +1,63 @@
-go.property("row", 0)
-go.property("length", 0)
-go.property("speed", 0)
-go.property("is_moving", false)
+local w = require("modules.world")
 
-local function spawn_blocks(self)
-	local random_block_number = 0
-	if (panel.row == 1 or panel.row == 11) and panel.length == 3 then
-		random_block_number = 2
-	else
-		random_block_number = math.random(panel.length)
-	end
-	for i = 1, panel.length do
-		local selected_reward = 0
-		if i == random_block_number then
-			selected_reward = 1
-			if panel.row == 11 then selected_reward = 2 end
-		end
-		local block_position = vmath.vector3((i - 1) * 16, 0, 0)
-		local block_id = factory.create("#block_factory", block_position, nil, {reward = selected_reward})
-		table.insert(panel.blocks[i], block_id)
-		go.set_parent(block_id, msg.url())
-	end
-end
+go.property("n", 0)
 
 local function make_borders(self)
-	for i = 1, #self.blocks do
-		if i == 1 then
-			local border_pos = vmath.vector3(-16, 0, -1) 
-			local border_id = factory.create("#border_factory", border_pos, nil, {side = 0})
-			go.set_parent(border_id, self.blocks[i])
-		end
-		if i == #self.blocks then
-			local border_pos = vmath.vector3(16, 0, -1) 
-			local border_id = factory.create("#border_factory", border_pos, nil, {side = 1})
-			go.set_parent(border_id, self.blocks[i])
-		end
-		local top_border_url = self.blocks[i]
-		top_border_url.fragment = "border_sprite"
-		msg.post(top_border_url, "enable")
-	end
+	-- for i = 1, #self.blocks do
+	-- 	if i == 1 then
+	-- 		local border_pos = vmath.vector3(-16, 0, -1) 
+	-- 		local border_id = factory.create("#border_factory", border_pos, nil, {side = 0})
+	-- 		go.set_parent(border_id, self.blocks[i])
+	-- 	end
+	-- 	if i == #self.blocks then
+	-- 		local border_pos = vmath.vector3(16, 0, -1) 
+	-- 		local border_id = factory.create("#border_factory", border_pos, nil, {side = 1})
+	-- 		go.set_parent(border_id, self.blocks[i])
+	-- 	end
+	-- 	local top_border_url = self.blocks[i]
+	-- 	top_border_url.fragment = "border_sprite"
+	-- 	msg.post(top_border_url, "enable")
+	-- end
 end
 
 local function stop(self, target_column_left, target_column_right)
-	self.is_moving = false
-	for i = #self.blocks, 1, -1 do
-		local column = (go.get_world_position(self.blocks[i]).x - 8) / 16
-		if column < target_column_left or column > target_column_right then
-			go.delete(self.blocks[i], true)
-			table.remove(self.blocks, i)
-		end
-	end
-	if go.get_position() ~= go.get_world_position(self.blocks[1]) then
-		local cor = go.get_position() - go.get_world_position(self.blocks[1])
-		go.set_position(go.get_position() - cor)
-		for i = 1, #self.blocks do
-			go.set_position(go.get_position(self.blocks[i]) + cor, self.blocks[i])
-		end
-	end
-	self.length = #self.blocks
-	---
-	world.length = self.length
-	world.column_left = (go.get_world_position(self.blocks[1]).x - 8) / 16
-	world.column_right = world.column_left + self.length - 1
-	---
-	-- local new_column_left = (go.get_world_position(self.blocks[1]).x - 8) / 16
-	-- local new_column_right = new_column_left + self.length - 1
-	-- go.set("/gameplay_manager#gameplay_manager", "column_left", new_column_left)
-	-- go.set("/gameplay_manager#gameplay_manager", "column_right", new_column_right)
-	-- go.set("/gameplay_manager#gameplay_manager", "length", self.length)
-	-- -- msg.post("/gameplay_manager#gameplay_manager", "shorten", {length = self.length, column_left = new_column_left, column_right = new_column_right})
-	make_borders(self)
-end
-
-function init(self)
-	self.panel = world.panels[#world.panels]
-	pprint(world.panels)
-	self.timer = self.speed
-	self.is_moving = true
+	-- self.is_moving = false
+	-- for i = #self.blocks, 1, -1 do
+	-- 	local column = (go.get_world_position(self.blocks[i]).x - 8) / 16
+	-- 	if column < target_column_left or column > target_column_right then
+	-- 		go.delete(self.blocks[i], true)
+	-- 		table.remove(self.blocks, i)
+	-- 	end
+	-- end
+	-- if go.get_position() ~= go.get_world_position(self.blocks[1]) then
+	-- 	local cor = go.get_position() - go.get_world_position(self.blocks[1])
+	-- 	go.set_position(go.get_position() - cor)
+	-- 	for i = 1, #self.blocks do
+	-- 		go.set_position(go.get_position(self.blocks[i]) + cor, self.blocks[i])
+	-- 	end
+	-- end
+	-- self.length = #self.blocks
+	-- ---
+	-- world.length = self.length
+	-- world.column_left = (go.get_world_position(self.blocks[1]).x - 8) / 16
+	-- world.column_right = world.column_left + self.length - 1
+	-- make_borders(self)
 end
 
 function update(self, dt)
-	-- if self.is_moving then
-	-- 	local position = go.get_position()
-	-- 	if self.timer <= 0 then
-	-- 		self.timer = self.speed
-	-- 		if position == self.panel.left_position or position == self.panel.right_position then self.panel.direction = -self.panel.direction end
-	-- 		go.set_position(vmath.vector3(position.x - self.panel.direction * 16, position.y, position.z))
-	-- 	end
-	-- 	self.timer = self.timer - dt
-	-- end
+	if self.is_moving then
+		local position = go.get_position()
+		if self.timer <= 0 then
+			self.timer = self.speed
+			if position == self.panel.left_position or position == self.panel.right_position then self.panel.direction = -self.panel.direction end
+			go.set_position(vmath.vector3(position.x - self.panel.direction * 16, position.y, position.z))
+		end
+		self.timer = self.timer - dt
+	end
 end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("stop") then
-		stop(self, message.target_column_left, message.target_column_right)
+		make_borders(self)
 	end
 end

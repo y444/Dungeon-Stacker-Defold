@@ -1,38 +1,24 @@
-local world = require("modules.world")
-
 go.property("row", 0)
 go.property("length", 0)
 go.property("speed", 0)
 go.property("is_moving", false)
 
-local function setup_position(self)
-	self.left = vmath.vector3(24, 24 + self.row * 16, -4)
-	self.right = vmath.vector3(136 - self.length * 16, 24 + self.row * 16, -4)
-	local start_options = {self.left, self.right}
-	local start = start_options[math.random(#start_options)]
-	if start == self.right then self.direction = -1 else self.direction = 1 end
-	go.set_position(start,".")
-end
-
 local function spawn_blocks(self)
-	self.blocks = {}
 	local random_block_number = 0
-	if (self.row == 1 or self.row == 11) and self.length == 3 then
+	if (panel.row == 1 or panel.row == 11) and panel.length == 3 then
 		random_block_number = 2
 	else
-		random_block_number = math.random(self.length)
+		random_block_number = math.random(panel.length)
 	end
-	for i = 1, self.length do
+	for i = 1, panel.length do
 		local selected_reward = 0
 		if i == random_block_number then
 			selected_reward = 1
-			if self.row == 11 then selected_reward = 2 end
+			if panel.row == 11 then selected_reward = 2 end
 		end
 		local block_position = vmath.vector3((i - 1) * 16, 0, 0)
 		local block_id = factory.create("#block_factory", block_position, nil, {reward = selected_reward})
-		local block_url = msg.url(block_id)
-		block_url.fragment = "block"
-		table.insert(self.blocks, block_url)
+		table.insert(panel.blocks[i], block_id)
 		go.set_parent(block_id, msg.url())
 	end
 end
@@ -87,22 +73,22 @@ local function stop(self, target_column_left, target_column_right)
 end
 
 function init(self)
+	self.panel = world.panels[#world.panels]
+	pprint(world.panels)
 	self.timer = self.speed
 	self.is_moving = true
-	setup_position(self)
-	spawn_blocks(self)
 end
 
 function update(self, dt)
-	if self.is_moving then
-		local position = go.get_position()
-		if self.timer <= 0 then
-			self.timer = self.speed
-			if position == self.left or position == self.right then self.direction = -self.direction end
-			go.set_position(vmath.vector3(position.x - self.direction * 16, position.y, position.z))
-		end
-		self.timer = self.timer - dt
-	end
+	-- if self.is_moving then
+	-- 	local position = go.get_position()
+	-- 	if self.timer <= 0 then
+	-- 		self.timer = self.speed
+	-- 		if position == self.panel.left_position or position == self.panel.right_position then self.panel.direction = -self.panel.direction end
+	-- 		go.set_position(vmath.vector3(position.x - self.panel.direction * 16, position.y, position.z))
+	-- 	end
+	-- 	self.timer = self.timer - dt
+	-- end
 end
 
 function on_message(self, message_id, message, sender)

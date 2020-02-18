@@ -1,27 +1,7 @@
 name: "main"
 instances {
-  id: "chest"
-  prototype: "/game_objects/chest.go"
-  position {
-    x: 72.0
-    y: 288.0
-    z: 0.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale3 {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-  }
-}
-instances {
-  id: "banner"
-  prototype: "/game_objects/banner.go"
+  id: "banner_left"
+  prototype: "/game_objects/decorations/banner.go"
   position {
     x: 40.0
     y: 294.0
@@ -40,8 +20,8 @@ instances {
   }
 }
 instances {
-  id: "banner1"
-  prototype: "/game_objects/banner.go"
+  id: "banner_right"
+  prototype: "/game_objects/decorations/banner.go"
   position {
     x: 104.0
     y: 294.0
@@ -60,8 +40,8 @@ instances {
   }
 }
 instances {
-  id: "candle"
-  prototype: "/game_objects/candle.go"
+  id: "candle_left"
+  prototype: "/game_objects/decorations/candle.go"
   position {
     x: 24.0
     y: 10.0
@@ -80,8 +60,8 @@ instances {
   }
 }
 instances {
-  id: "candle1"
-  prototype: "/game_objects/candle.go"
+  id: "candle_right"
+  prototype: "/game_objects/decorations/candle.go"
   position {
     x: 120.0
     y: 10.0
@@ -101,7 +81,7 @@ instances {
 }
 instances {
   id: "torch_left_1"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 24.0
     y: 40.0
@@ -121,7 +101,7 @@ instances {
 }
 instances {
   id: "torch_left_2"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 24.0
     y: 56.0
@@ -141,7 +121,7 @@ instances {
 }
 instances {
   id: "torch_left_3"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 24.0
     y: 72.0
@@ -161,7 +141,7 @@ instances {
 }
 instances {
   id: "torch_left_4"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 24.0
     y: 88.0
@@ -181,7 +161,7 @@ instances {
 }
 instances {
   id: "torch_left_5"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 24.0
     y: 104.0
@@ -201,7 +181,7 @@ instances {
 }
 instances {
   id: "torch_left_6"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 24.0
     y: 120.0
@@ -221,7 +201,7 @@ instances {
 }
 instances {
   id: "torch_left_7"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 24.0
     y: 136.0
@@ -241,7 +221,7 @@ instances {
 }
 instances {
   id: "torch_left_8"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 24.0
     y: 152.0
@@ -261,7 +241,7 @@ instances {
 }
 instances {
   id: "torch_left_9"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 24.0
     y: 168.0
@@ -281,7 +261,7 @@ instances {
 }
 instances {
   id: "torch_left_10"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 24.0
     y: 184.0
@@ -301,7 +281,7 @@ instances {
 }
 instances {
   id: "torch_left_11"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 24.0
     y: 200.0
@@ -321,7 +301,7 @@ instances {
 }
 instances {
   id: "torch_left_12"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 24.0
     y: 216.0
@@ -341,7 +321,7 @@ instances {
 }
 instances {
   id: "torch_left_13"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 24.0
     y: 232.0
@@ -361,7 +341,7 @@ instances {
 }
 instances {
   id: "torch_left_14"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 24.0
     y: 248.0
@@ -381,7 +361,7 @@ instances {
 }
 instances {
   id: "torch_left_15"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 24.0
     y: 264.0
@@ -401,7 +381,7 @@ instances {
 }
 instances {
   id: "torch_right_6"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 120.0
     y: 120.0
@@ -421,7 +401,7 @@ instances {
 }
 instances {
   id: "torch_right_1"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 120.0
     y: 40.0
@@ -441,7 +421,7 @@ instances {
 }
 instances {
   id: "torch_right_14"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 120.0
     y: 248.0
@@ -461,7 +441,7 @@ instances {
 }
 instances {
   id: "torch_right_7"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 120.0
     y: 136.0
@@ -481,7 +461,7 @@ instances {
 }
 instances {
   id: "torch_right_13"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 120.0
     y: 232.0
@@ -501,7 +481,7 @@ instances {
 }
 instances {
   id: "torch_right_2"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 120.0
     y: 56.0
@@ -521,7 +501,7 @@ instances {
 }
 instances {
   id: "torch_right_11"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 120.0
     y: 200.0
@@ -541,7 +521,7 @@ instances {
 }
 instances {
   id: "torch_right_12"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 120.0
     y: 216.0
@@ -561,7 +541,7 @@ instances {
 }
 instances {
   id: "torch_right_4"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 120.0
     y: 88.0
@@ -581,7 +561,7 @@ instances {
 }
 instances {
   id: "torch_right_8"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 120.0
     y: 152.0
@@ -601,7 +581,7 @@ instances {
 }
 instances {
   id: "torch_right_3"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 120.0
     y: 72.0
@@ -621,7 +601,7 @@ instances {
 }
 instances {
   id: "torch_right_15"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 120.0
     y: 264.0
@@ -641,7 +621,7 @@ instances {
 }
 instances {
   id: "torch_right_5"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 120.0
     y: 104.0
@@ -661,7 +641,7 @@ instances {
 }
 instances {
   id: "torch_right_9"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 120.0
     y: 168.0
@@ -681,7 +661,7 @@ instances {
 }
 instances {
   id: "torch_right_10"
-  prototype: "/game_objects/torch_left.go"
+  prototype: "/game_objects/decorations/torch.go"
   position {
     x: 120.0
     y: 184.0
@@ -772,8 +752,8 @@ embedded_instances {
 }
 embedded_instances {
   id: "banners"
-  children: "banner"
-  children: "banner1"
+  children: "banner_left"
+  children: "banner_right"
   data: ""
   position {
     x: 0.0
@@ -794,8 +774,8 @@ embedded_instances {
 }
 embedded_instances {
   id: "candles"
-  children: "candle"
-  children: "candle1"
+  children: "candle_left"
+  children: "candle_right"
   data: ""
   position {
     x: 0.0
@@ -896,60 +876,6 @@ embedded_instances {
   "    w: 1.0\n"
   "  }\n"
   "}\n"
-  "embedded_components {\n"
-  "  id: \"panel_factory\"\n"
-  "  type: \"factory\"\n"
-  "  data: \"prototype: \\\"/game_objects/panel.go\\\"\\n"
-  "load_dynamically: false\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  "embedded_components {\n"
-  "  id: \"hero_factory\"\n"
-  "  type: \"factory\"\n"
-  "  data: \"prototype: \\\"/game_objects/hero.go\\\"\\n"
-  "load_dynamically: false\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  "embedded_components {\n"
-  "  id: \"skull_factory\"\n"
-  "  type: \"factory\"\n"
-  "  data: \"prototype: \\\"/game_objects/skull.go\\\"\\n"
-  "load_dynamically: false\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
   ""
   position {
     x: 0.0
@@ -970,24 +896,9 @@ embedded_instances {
 }
 embedded_instances {
   id: "HUD"
-  children: "money"
-  children: "skull"
-  data: "components {\n"
-  "  id: \"hud\"\n"
-  "  component: \"/scripts/hud.script\"\n"
-  "  position {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  ""
+  children: "countdown_counter"
+  children: "money_counter"
+  data: ""
   position {
     x: 0.0
     y: 336.0
@@ -1006,7 +917,7 @@ embedded_instances {
   }
 }
 embedded_instances {
-  id: "money"
+  id: "money_counter"
   data: "embedded_components {\n"
   "  id: \"money_icon\"\n"
   "  type: \"sprite\"\n"
@@ -1082,7 +993,7 @@ embedded_instances {
   "  }\n"
   "}\n"
   "embedded_components {\n"
-  "  id: \"money_mask\"\n"
+  "  id: \"money_icon_mask\"\n"
   "  type: \"sprite\"\n"
   "  data: \"tile_set: \\\"/sprite_atlases/dungeon_items.atlas\\\"\\n"
   "default_animation: \\\"mask_coin\\\"\\n"
@@ -1120,9 +1031,9 @@ embedded_instances {
   }
 }
 embedded_instances {
-  id: "skull"
+  id: "countdown_counter"
   data: "embedded_components {\n"
-  "  id: \"skull_icon\"\n"
+  "  id: \"countdown_icon\"\n"
   "  type: \"sprite\"\n"
   "  data: \"tile_set: \\\"/sprite_atlases/dungeon_items.atlas\\\"\\n"
   "default_animation: \\\"bw_skull\\\"\\n"
@@ -1142,7 +1053,7 @@ embedded_instances {
   "  }\n"
   "}\n"
   "embedded_components {\n"
-  "  id: \"skull_label\"\n"
+  "  id: \"countdown_label\"\n"
   "  type: \"label\"\n"
   "  data: \"size {\\n"
   "  x: 16.0\\n"
@@ -1196,7 +1107,7 @@ embedded_instances {
   "  }\n"
   "}\n"
   "embedded_components {\n"
-  "  id: \"skull_mask\"\n"
+  "  id: \"countdown_icon_mask\"\n"
   "  type: \"sprite\"\n"
   "  data: \"tile_set: \\\"/sprite_atlases/dungeon_items.atlas\\\"\\n"
   "default_animation: \\\"mask_skull\\\"\\n"
@@ -1207,6 +1118,170 @@ embedded_instances {
   "    x: 116.0\n"
   "    y: -16.0\n"
   "    z: 1.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  ""
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+embedded_instances {
+  id: "industry"
+  data: "embedded_components {\n"
+  "  id: \"hero_factory\"\n"
+  "  type: \"factory\"\n"
+  "  data: \"prototype: \\\"/game_objects/hero.go\\\"\\n"
+  "load_dynamically: false\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"panel_factory\"\n"
+  "  type: \"factory\"\n"
+  "  data: \"prototype: \\\"/game_objects/panel_components/panel.go\\\"\\n"
+  "load_dynamically: false\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"skull_factory\"\n"
+  "  type: \"factory\"\n"
+  "  data: \"prototype: \\\"/game_objects/skull.go\\\"\\n"
+  "load_dynamically: false\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"block_factory\"\n"
+  "  type: \"factory\"\n"
+  "  data: \"prototype: \\\"/game_objects/panel_components/block.go\\\"\\n"
+  "load_dynamically: false\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"coin_factory\"\n"
+  "  type: \"factory\"\n"
+  "  data: \"prototype: \\\"/game_objects/rewards/coin.go\\\"\\n"
+  "load_dynamically: false\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"small_chest_factory\"\n"
+  "  type: \"factory\"\n"
+  "  data: \"prototype: \\\"/game_objects/rewards/small_chest.go\\\"\\n"
+  "load_dynamically: false\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"chest_factory\"\n"
+  "  type: \"factory\"\n"
+  "  data: \"prototype: \\\"/game_objects/rewards/chest.go\\\"\\n"
+  "load_dynamically: false\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"border_factory\"\n"
+  "  type: \"factory\"\n"
+  "  data: \"prototype: \\\"/game_objects/panel_components/border.go\\\"\\n"
+  "load_dynamically: false\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
   "  }\n"
   "  rotation {\n"
   "    x: 0.0\n"

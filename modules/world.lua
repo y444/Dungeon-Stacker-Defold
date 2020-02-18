@@ -1,4 +1,7 @@
 local world = {
+	RED_COLOR = vmath.vector4(0.76, 0.27, 0.27, 1),
+	YELLOW_COLOR = vmath.vector4(1, 0.85, 0, 1),
+	GREY_COLOR = vmath.vector4(0.90, 0.90, 0.90, 1),
 	STARTING_ROW = 1,
 	STARTING_COLUMN = 3,
 	STARTING_LENGTH = 3,

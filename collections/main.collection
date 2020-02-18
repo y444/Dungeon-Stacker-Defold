@@ -1013,7 +1013,7 @@ embedded_instances {
   "  data: \"tile_set: \\\"/sprite_atlases/dungeon_items.atlas\\\"\\n"
   "default_animation: \\\"mask_coin\\\"\\n"
   "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "blend_mode: BLEND_MODE_MULT\\n"
   "\"\n"
   "  position {\n"
   "    x: 12.0\n"

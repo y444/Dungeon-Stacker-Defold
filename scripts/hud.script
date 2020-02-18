@@ -21,25 +21,24 @@ local function blink(self, label_url, mask_url, color)
 end
 
 function init(self)
-	go.set("/skull#skull_mask", "tint.w", 0)
-	go.set("/money#money_mask", "tint.w", 0)
+	go.set("/countdown_counter#countdown_icon_mask", "tint.w", 0)
+	go.set("/money_counter#money_icon_mask", "tint.w", 0)
 end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("update_score") then
-		label.set_text("/money#money_label", message.score)
-		blink(self, "/money#money_label", "/money#money_mask", COLORS.YELLOW_COLOR)
-		shake(self, "/money")
+		label.set_text("/money_counter#money_label", message.score)
+		blink(self, "/money_counter#money_label", "/money_counter#money_icon_mask", COLORS.YELLOW_COLOR)
+		shake(self, "/money_counter")
 	end
 	if message_id == hash("update_time") then
-		label.set_text("/skull#skull_label", message.time)
+		label.set_text("/countdown_counter#countdown_label", message.time)
 		if message.time <= 3 then
-			go.set("/skull#skull_label", "color", COLORS.RED_COLOR)
-			go.set("/skull#skull_mask", "tint.w", 1)
-			shake(self, "/skull")
+			go.set("/countdown_counter#countdown_label", "color", COLORS.RED_COLOR)
+			go.set("/countdown_counter#countdown_icon_mask", "tint.w", 1)
 		else
-			blink(self, "/skull#skull_label", "/skull#skull_mask", COLORS.RED_COLOR)
-			shake(self, "/skull")
+			blink(self, "/countdown_counter#countdown_label", "/countdown_counter#countdown_icon_mask", COLORS.RED_COLOR)
 		end
+		shake(self, "/countdown_counter")
 	end
 end

@@ -1,7 +1,71 @@
 local w = require("modules.world")
 
+local function reset_gamefield()
+	w.row = w.STARTING_ROW
+	w.column = w.STARTING_COLUMN
+	w.length = w.STARTING_LENGTH
+	w.speed = w.STARTING_SPEED
+	w.time = w.STARTING_TIME
+	w.score = w.STARTING_SCORE
+	msg.post(w.torches, "lightup", {amount = 15})
+	msg.post(w.hud, "update_score", {score = w.score})
+	msg.post(w.hud, "update_time", {time = w.time})
+	if w.hero ~= nil then go.delete(w.hero) end
+	w.hero = factory.create(w.hero_factory, w.HERO_START_POS)
+	for _, id in ipairs(w.panels) do go.delete(id, true) end
+	w.panels = {}
+	for _, id in ipairs(w.rewards) do go.delete(id, true) end
+	w.rewards = {}
+	table.insert(w.rewards, factory.create(w.chest_factory, w.CHEST_START_POS))
+end
 
+local function switch_gamestate(self, new_gamestate)
+	if new_gamestate == w.GAMESTATE.START then
+		reset_gamefield(self)
+		self.ticker = 0
+		w.gamestate = w.GAMESTATE.START
+	end
+	if new_gamestate == w.GAMESTATE.PLAY then
+		msg.post(w.torches, "lightup", {amount = 0})
+		w.gamestate = w.GAMESTATE.PLAY
+	end
+	if new_gamestate == w.GAMESTATE.WIN then
+		w.gamestate = w.GAMESTATE.WIN
+	end
+	if new_gamestate == w.GAMESTATE.LOSE then
+		w.gamestate = w.GAMESTATE.LOSE
+	end
+	if new_gamestate == w.GAMESTATE.END then
+		w.gamestate = w.GAMESTATE.END
+	end
+end
+
+function update(self, dt)
+	if w.gamestate == w.GAMESTATE.PLAY then
+		self.ticker = self.ticker + dt
+		if self.ticker >= 1 and w.time > 0 then
+			self.ticker = 0
+			w.time = w.time - 1
+			msg.post(w.hud, "update_time", {time = w.time})
+		end
+	end
+end
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
+	switch_gamestate(self, w.GAMESTATE.START)
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash("touch") and action.pressed then
+		if w.gamestate == w.GAMESTATE.START then
+			switch_gamestate(self, w.GAMESTATE.PLAY)
+		end
+		if w.gamestate == w.GAMESTATE.PLAY then
+		end
+	end
+end
+
+function on_message(self, message_id, message, sender)
+	
 end

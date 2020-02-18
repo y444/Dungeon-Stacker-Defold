@@ -2,6 +2,16 @@ local w = require("modules.world")
 
 go.property("n", 0)
 
+local function spawn_blocks(self)
+	self.panel.blocks = {}
+	for i = 1, self.panel.length do
+		local block_position = vmath.vector3((i - 1) * 16, 0, 0)
+		local block_id = factory.create(w.block_factory, block_position)
+		table.insert(self.panel.blocks, block_id)
+		go.set_parent(block_id, msg.url())
+	end
+end
+
 local function make_borders(self)
 	-- for i = 1, #self.blocks do
 	-- 	if i == 1 then
@@ -44,15 +54,23 @@ local function stop(self, target_column_left, target_column_right)
 	-- make_borders(self)
 end
 
+function init(self)
+	self.panel = w.panels[self.n]
+	self.ticker = 0
+	spawn_blocks(self)
+end
+
 function update(self, dt)
-	if self.is_moving then
-		local position = go.get_position()
-		if self.timer <= 0 then
-			self.timer = self.speed
-			if position == self.panel.left_position or position == self.panel.right_position then self.panel.direction = -self.panel.direction end
-			go.set_position(vmath.vector3(position.x - self.panel.direction * 16, position.y, position.z))
+	if self.panel.is_moving then
+		self.ticker = self.ticker + dt
+		local pos = go.get(".", "position.x")
+		if self.ticker >= self.panel.speed then
+			self.ticker = 0
+			if pos == self.panel.left_pos.x or pos == self.panel.right_pos.x then
+				self.panel.dir = -self.panel.dir
+			end
+			go.set(".", "position.x", pos - self.panel.dir * 16)
 		end
-		self.timer = self.timer - dt
 	end
 end
 

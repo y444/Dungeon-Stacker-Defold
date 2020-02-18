@@ -51,20 +51,13 @@ local function spawn_panel(self)
 	new_panel.right_pos = new_panel.left_pos + vmath.vector3(16, 0, 0) * (7 - w.length)
 	local start_pos
 	if new_panel.dir == w.LEFT then
-		start_pos = new_panel.left_pos 
-	else start_pos = new_panel.right_pos 
+		start_pos = new_panel.right_pos 
+	else start_pos = new_panel.left_pos 
 	end
 	new_panel.is_moving = true
-	new_panel.id = factory.create(w.panel_factory, start_pos, nil, {n = w.row})
-	new_panel.blocks = {}
-	for i = 1, w.length do
-		local block_position = vmath.vector3((i - 1) * 16, 0, 0)
-		local block_id = factory.create(w.block_factory, block_position)
-		table.insert(new_panel.blocks, block_id)
-		go.set_parent(block_id, msg.url(nil, new_panel.id, nil))
-	end
 	table.insert(w.panels, new_panel)
-	pprint(new_panel)
+	new_panel.id = factory.create(w.panel_factory, start_pos, nil, {n = new_panel.row})
+	
 end
 
 function update(self, dt)
@@ -90,10 +83,7 @@ function on_input(self, action_id, action)
 		end
 		if w.gamestate == w.GAMESTATE.PLAY then
 			spawn_panel(self)
-			if w.panel_moving then
-			else
-				
-			end
+			w.row = w.row + 1 -- temp
 		end
 	end
 end

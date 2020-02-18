@@ -57,7 +57,28 @@ local function spawn_panel(self)
 	new_panel.is_moving = true
 	table.insert(w.panels, new_panel)
 	new_panel.id = factory.create(w.panel_factory, start_pos, nil, {n = new_panel.row})
-	
+	w.panel_moving = true
+end
+
+local function stop_panel(self)
+	local panel = w.panels[#w.panels]
+	panel.is_moving = false
+	--trim panel start
+	panel.column = (go.get_position(panel.id).x - w.PANEL_START_POS.x) / 16 + 1
+	local prev_column = w.STARTING_COLUMN
+	if #w.panels > 1 then prev_column = w.panels[#w.panels-1].column end
+	local col_diff = panel.column - prev_column
+	if col_diff < 0 then
+		local pos = go.get(panel.id, "position.x")
+		go.set(panel.id, "position.x", pos - (col_diff * 16))
+		for _, block in ipairs(panel.blocks) do
+			local pos = go.get(block, "position.x")
+			go.set(block, "position.x", pos + (col_diff * 16))
+		end
+	end
+	--trim panel end
+	msg.post(msg.url(nil, panel.id, "panel"), "stop")
+	w.panel_moving = false
 end
 
 function update(self, dt)
@@ -81,9 +102,12 @@ function on_input(self, action_id, action)
 		if w.gamestate == w.GAMESTATE.START then
 			switch_gamestate(self, w.GAMESTATE.PLAY)
 		end
-		if w.gamestate == w.GAMESTATE.PLAY then
+		if w.gamestate == w.GAMESTATE.PLAY then --temp
+			if w.panel_moving == true then
+				stop_panel(self)
+				w.row = w.row + 1
+			end
 			spawn_panel(self)
-			w.row = w.row + 1 -- temp
 		end
 	end
 end

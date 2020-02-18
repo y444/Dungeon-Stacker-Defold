@@ -19,6 +19,8 @@ local world = {
 	BLOCK_IMAGES = {"middle_block_1", "middle_block_2", "middle_block_3", "middle_block_4"},
 	REWARD_TYPES = {COIN = 1, SMALL_CHEST = 2, CHEST = 3},
 	SMALL_CHEST_ROW = 11,
+	BORDER_IMAGES = {"border_1", "border_2"},
+	BORDER_TYPES = {LEFT = 1, RIGHT = 2},
 	GAMESTATE = {START = 1, PLAY = 2, WIN = 3, LOSE = 4, END = 5},
 	hero_factory = "/industry#hero_factory",
 	skull_factory = "/industry#skull_factory",

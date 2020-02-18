@@ -1,15 +1,16 @@
-local BORDER_IMAGES = { "border_1", "border_2" }
-local BORDER_TYPES = { LEFT = 1, RIGHT = 2 }
+--done
+
+local w = require("modules.world")
 
 go.property("side", 0)
 
 function init(self)
-	self.random_border = BORDER_IMAGES[math.random(#BORDER_IMAGES)]
-	msg.post("#sprite_right", hash("disable"))
-	msg.post("#sprite", hash("play_animation"), {id = hash(self.random_border)})
-	if self.side == BORDER_TYPES.LEFT then
+	local random_border = w.BORDER_IMAGES[math.random(#w.BORDER_IMAGES)]
+	msg.post("#sprite_right", "disable")
+	msg.post("#sprite", "play_animation", {id = hash(random_border)})
+	if self.side == w.BORDER_TYPES.LEFT then
 		sprite.set_hflip("#sprite", true)
-		msg.post("#sprite_right", hash("enable"))
-		msg.post("#sprite_left", hash("disable"))
+		msg.post("#sprite_right", "enable")
+		msg.post("#sprite_left", "disable")
 	end
 end

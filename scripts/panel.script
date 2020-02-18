@@ -13,21 +13,21 @@ local function spawn_blocks(self)
 end
 
 local function make_borders(self)
-	-- for i = 1, #self.blocks do
-	-- 	if i == 1 then
-	-- 		local border_pos = vmath.vector3(-16, 0, -1) 
-	-- 		local border_id = factory.create("#border_factory", border_pos, nil, {side = 0})
-	-- 		go.set_parent(border_id, self.blocks[i])
-	-- 	end
-	-- 	if i == #self.blocks then
-	-- 		local border_pos = vmath.vector3(16, 0, -1) 
-	-- 		local border_id = factory.create("#border_factory", border_pos, nil, {side = 1})
-	-- 		go.set_parent(border_id, self.blocks[i])
-	-- 	end
-	-- 	local top_border_url = self.blocks[i]
-	-- 	top_border_url.fragment = "border_sprite"
-	-- 	msg.post(top_border_url, "enable")
-	-- end
+	for i = 1, #self.panel.blocks do
+		if i == 1 then
+			local border_pos = vmath.vector3(-16, 0, -1) 
+			local border_id = factory.create(w.border_factory, border_pos, nil, {side = 0})
+			go.set_parent(border_id, self.panel.blocks[i])
+		end
+		if i == #self.panel.blocks then
+			local border_pos = vmath.vector3(16, 0, -1) 
+			local border_id = factory.create(w.border_factory, border_pos, nil, {side = 1})
+			go.set_parent(border_id, self.panel.blocks[i])
+		end
+		-- local top_border_url = self.blocks[i]
+		-- top_border_url.fragment = "border_sprite"
+		msg.post(msg.url(nil, self.panel.blocks[i], "border_sprite"), "enable")
+	end
 end
 
 local function stop(self, target_column_left, target_column_right)

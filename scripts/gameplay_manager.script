@@ -1,5 +1,16 @@
 local w = require("modules.world")
 
+local function spawn_hero(self)
+	w.hero = {}
+	w.hero.dead = false
+	w.hero.is_moving = false
+	w.hero.move_targets = {}
+	w.hero.move_dir = vmath.vector3()
+	w.hero.speed = w.HERO_SPEED
+	w.hero.delay = w.HERO_DELAY
+	w.hero.id = factory.create(w.hero_factory, w.HERO_START_POS)
+end
+
 local function reset_gamefield()
 	w.row = w.STARTING_ROW
 	w.length = w.STARTING_LENGTH
@@ -7,11 +18,10 @@ local function reset_gamefield()
 	w.time = w.STARTING_TIME
 	w.score = w.STARTING_SCORE
 	w.panel_moving = false
-	w.hero_dead = false
 	msg.post(w.torches, "lightup", {amount = 15})
 	msg.post(w.hud, "reset_hud")
-	if w.hero ~= nil then go.delete(w.hero) end
-	w.hero = factory.create(w.hero_factory, w.HERO_START_POS)
+	if w.hero.id ~= nil then go.delete(w.hero.id) end
+	spawn_hero(self)
 	for _, panel in ipairs(w.panels) do go.delete(panel.id, true) end
 	w.panels = {}
 	if w.chest ~= nil then go.delete(w.chest) end

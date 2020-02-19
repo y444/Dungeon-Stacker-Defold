@@ -1,63 +1,18 @@
-function init(self)
-	self.is_moving = false
-	self.move_targets = {}
-	self.move_dir = vmath.vector3()
-	self.move_speed = 8
-	self.timer = 0
-	self.delay = 0.4
-end
+local w = require("modules.world")
 
-local function stop_moving(self)
-	self.is_moving = false
-	table.remove(self.move_targets, 1)
-	self.move_dir = vmath.vector3()
+function init(self)
+	self.ticker = 0
 end
 
 function update(self, dt)
-	if #self.move_targets ~= 0 and not self.is_moving then
-		local hero_x = go.get(".", "position.x")
-		if self.move_dir == vmath.vector3() then
-			local target_x = go.get_position(self.move_targets[1].target_panel).x
-			self.move_dir.y = 16
-			if self.move_targets[1].target_length == 1 then
-				if target_x < hero_x then
-					self.move_dir.x  = -16
-				elseif target_x > hero_x then
-					self.move_dir.x = 16
-				end
-			end
-			if go.get(".", "position.y") == 16 then self.move_dir.y = self.move_dir.y + 8 end
-			if go.get(".", "position.y") == 280 then self.move_dir.y = self.move_dir.y - 8 end
-		else
-			if self.timer <= 0 then
-				self.timer = self.delay
-				if self.move_dir.x ~= 0 then
-					if self.move_dir.x < 0 then
-						go.set(".", "position.x", go.get(".", "position.x") - self.move_speed)
-						self.move_dir.x = self.move_dir.x + self.move_speed
-					else
-						go.set(".", "position.x", go.get(".", "position.x") + self.move_speed)
-						self.move_dir.x = self.move_dir.x - self.move_speed
-					end
-				elseif self.move_dir.y ~= 0 then
-					go.set(".", "position.y", go.get(".", "position.y") + self.move_speed)
-					self.move_dir.y = self.move_dir.y - self.move_speed
-				end
-				if self.move_dir.x < 0 then sprite.set_hflip("#sprite", true) end
-				if self.move_dir.x > 0 then sprite.set_hflip("#sprite", false) end
-			end
-			self.timer = self.timer - dt
-			if self.move_dir == vmath.vector3() then stop_moving(self) end
-		end
-	end
+	
 end
 
 function on_message(self, message_id, message, sender)
-	if message_id == hash("move") then
-		table.insert(self.move_targets, {target_panel = message.target_panel, target_length = message.target_length})
+	if message_id == hash("go") then
+		
 	end
 	if message_id == hash("stop") then
-		self.is_moving = false
-		self.move_targets = {}
+
 	end
 end

@@ -14,9 +14,8 @@ local function reset_gamefield()
 	w.hero = factory.create(w.hero_factory, w.HERO_START_POS)
 	for _, panel in ipairs(w.panels) do go.delete(panel.id, true) end
 	w.panels = {}
-	for _, id in ipairs(w.rewards) do go.delete(id, true) end
-	w.rewards = {}
-	table.insert(w.rewards, factory.create(w.chest_factory, w.CHEST_START_POS))
+	if w.chest ~= nil then go.delete(w.chest) end
+	w.chest = factory.create(w.chest_factory, w.CHEST_START_POS)
 end
 
 local function switch_gamestate(self, new_gamestate)

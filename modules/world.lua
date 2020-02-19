@@ -21,6 +21,7 @@ local world = {
 	SMALL_CHEST_ROW = 11,
 	BORDER_IMAGES = {"border_1", "border_2"},
 	BORDER_TYPES = {LEFT = 1, RIGHT = 2},
+	SMALL_CHEST_ROW = 11,
 	GAMESTATE = {START = 1, PLAY = 2, WIN = 3, LOSE = 4, END = 5},
 	hero_factory = "/industry#hero_factory",
 	skull_factory = "/industry#skull_factory",
@@ -44,6 +45,6 @@ local world = {
 	hero = nil,
 	skull = nil,
 	panels = {},
-	rewards = {}
+	chest = nil
 }
 return world

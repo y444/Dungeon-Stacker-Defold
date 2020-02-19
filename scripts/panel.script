@@ -1,6 +1,21 @@
+-- done
+
 local w = require("modules.world")
 
 go.property("n", 0)
+
+local function add_reward(self)
+	local block_number = math.random(self.panel.length)
+	if (self.panel.row == 1 or self.panel.row == 11) and self.panel.length == 3 then block_number = 2 end
+	local reward = w.REWARD_TYPES.COIN
+	local reward_factory = w.coin_factory
+	if self.panel.row == w.SMALL_CHEST_ROW then
+		reward = w.REWARD_TYPES.SMALL_CHEST
+		reward_factory = w.small_chest_factory
+	end
+	local new_reward = factory.create(reward_factory, vmath.vector3(0, 0, 1))
+	go.set_parent(new_reward, self.panel.blocks[block_number])
+end
 
 local function spawn_blocks(self)
 	self.panel.blocks = {}
@@ -10,6 +25,7 @@ local function spawn_blocks(self)
 		table.insert(self.panel.blocks, block_id)
 		go.set_parent(block_id, msg.url())
 	end
+	add_reward(self)
 end
 
 local function make_borders(self)

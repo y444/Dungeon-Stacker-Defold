@@ -1,4 +1,4 @@
---remove reward spawning code then done
+-- done
 
 local w = require("modules.world")
 
@@ -6,11 +6,4 @@ function init(self)
 	local random_block_image = w.BLOCK_IMAGES[math.random(#w.BLOCK_IMAGES)]
 	msg.post("#border_sprite", hash("disable"))
 	msg.post("#sprite", hash("play_animation"), {id = hash(random_block_image)})
-	-- if self.reward == REWARD_TYPES.COIN then self.reward_factory = "#coin_factory"
-	-- elseif self.reward == REWARD_TYPES.SMALL_CHEST then self.reward_factory = "#small_chest_factory"
-	-- end
-	-- if self.reward_factory then
-	-- 	local reward = factory.create(self.reward_factory, vmath.vector3(0, 0, 1))
-	-- 	go.set_parent(reward, msg.url())
-	-- end
 end

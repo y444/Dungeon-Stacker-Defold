@@ -11,11 +11,6 @@ local function blink(self, label_url, mask_url, color)
 	go.animate(mask_url, "tint.w", go.PLAYBACK_ONCE_PINGPONG, 1, go.EASING_LINEAR, 0.2)
 end
 
-function init(self)
-	go.set("/countdown_counter#countdown_icon_mask", "tint.w", 0)
-	go.set("/money_counter#money_icon_mask", "tint.w", 0)
-end
-
 function on_message(self, message_id, message, sender)
 	if message_id == hash("update_score") then
 		label.set_text("/money_counter#money_label", message.score)
@@ -28,8 +23,17 @@ function on_message(self, message_id, message, sender)
 			go.set("/countdown_counter#countdown_label", "color", w.RED_COLOR)
 			go.set("/countdown_counter#countdown_icon_mask", "tint.w", 1)
 		else
+			go.set("/countdown_counter#countdown_label", "color", w.GREY_COLOR)
+			go.set("/countdown_counter#countdown_icon_mask", "tint.w", 0)
 			blink(self, "/countdown_counter#countdown_label", "/countdown_counter#countdown_icon_mask", w.RED_COLOR)
 		end
 		shake(self, "/countdown_counter")
+	end
+	if message_id == hash("reset_hud") then
+		label.set_text("/money_counter#money_label", w.STARTING_SCORE)
+		label.set_text("/countdown_counter#countdown_label", w.STARTING_TIME)
+		go.set("/countdown_counter#countdown_icon_mask", "tint.w", 0)
+		go.set("/money_counter#money_icon_mask", "tint.w", 0)
+		go.set("/countdown_counter#countdown_label", "color", w.GREY_COLOR)
 	end
 end

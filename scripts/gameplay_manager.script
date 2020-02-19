@@ -7,12 +7,12 @@ local function reset_gamefield()
 	w.time = w.STARTING_TIME
 	w.score = w.STARTING_SCORE
 	w.panel_moving = false
+	w.hero_dead = false
 	msg.post(w.torches, "lightup", {amount = 15})
-	msg.post(w.hud, "update_score", {score = w.score})
-	msg.post(w.hud, "update_time", {time = w.time})
+	msg.post(w.hud, "reset_hud")
 	if w.hero ~= nil then go.delete(w.hero) end
 	w.hero = factory.create(w.hero_factory, w.HERO_START_POS)
-	for _, id in ipairs(w.panels) do go.delete(id, true) end
+	for _, panel in ipairs(w.panels) do go.delete(panel.id, true) end
 	w.panels = {}
 	for _, id in ipairs(w.rewards) do go.delete(id, true) end
 	w.rewards = {}
@@ -30,10 +30,11 @@ local function switch_gamestate(self, new_gamestate)
 		w.gamestate = w.GAMESTATE.PLAY
 	end
 	if new_gamestate == w.GAMESTATE.WIN then
-		w.gamestate = w.GAMESTATE.WIN
+		msg.post(w.torches, "lightup", {amount = 15})
+		switch_gamestate(self, w.GAMESTATE.END)
 	end
 	if new_gamestate == w.GAMESTATE.LOSE then
-		w.gamestate = w.GAMESTATE.LOSE
+		switch_gamestate(self, w.GAMESTATE.END)
 	end
 	if new_gamestate == w.GAMESTATE.END then
 		w.gamestate = w.GAMESTATE.END
@@ -62,7 +63,6 @@ end
 local function stop_panel(self)
 	local panel = w.panels[#w.panels]
 	panel.is_moving = false
-	---- trim start
 	panel.left_limit = go.get_position(panel.id).x
 	local prev_left_limit = w.STARTING_LEFT_LIMIT
 	local prev_right_limit = w.STARTING_LEFT_LIMIT + 16 * (w.STARTING_LENGTH - 1)
@@ -88,10 +88,22 @@ local function stop_panel(self)
 		end
 	end
 	panel.length = #panel.blocks
-	w.length = panel.length
-	---- trim panel end
+	w.length = panel.length	
 	msg.post(msg.url(nil, panel.id, "panel"), "stop")
 	w.panel_moving = false
+end
+
+local function raise_level(self)
+	msg.post(w.torches, "lightup", {amount = w.row})
+	w.row = w.row + 1
+end
+
+local function is_game_lost(self)
+	return w.length == 0 or w.hero_dead == true
+end
+
+local function is_game_won(self)
+	return w.row == 15 and w.panel_moving == false and w.hero_dead == false
 end
 
 function update(self, dt)
@@ -115,12 +127,25 @@ function on_input(self, action_id, action)
 		if w.gamestate == w.GAMESTATE.START then
 			switch_gamestate(self, w.GAMESTATE.PLAY)
 		end
-		if w.gamestate == w.GAMESTATE.PLAY then --temp
+		if w.gamestate == w.GAMESTATE.PLAY then
 			if w.panel_moving == true then
 				stop_panel(self)
-				w.row = w.row + 1
+				if is_game_lost(self) then
+					print("lose")
+					switch_gamestate(self, w.GAMESTATE.LOSE)
+					return
+				end
+				if is_game_won(self) then
+					print("win")
+					switch_gamestate(self, w.GAMESTATE.WIN)
+					return
+				end
+				raise_level(self)
 			end
 			spawn_panel(self)
+		end
+		if w.gamestate == w.GAMESTATE.END then
+			switch_gamestate(self, w.GAMESTATE.START)
 		end
 	end
 end

@@ -38,6 +38,7 @@ local world = {
 	time = 0,
 	score = 0,
 	panel_moving = false,
+	hero_dead = false,
 	torches = "/torches#torches",
 	hud = "/HUD#hud",
 	hero = nil,

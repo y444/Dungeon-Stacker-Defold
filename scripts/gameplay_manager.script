@@ -2,7 +2,6 @@ local w = require("modules.world")
 
 local function reset_gamefield()
 	w.row = w.STARTING_ROW
-	w.column = w.STARTING_COLUMN
 	w.length = w.STARTING_LENGTH
 	w.speed = w.STARTING_SPEED
 	w.time = w.STARTING_TIME
@@ -63,20 +62,34 @@ end
 local function stop_panel(self)
 	local panel = w.panels[#w.panels]
 	panel.is_moving = false
-	--trim panel start
-	panel.column = (go.get_position(panel.id).x - w.PANEL_START_POS.x) / 16 + 1
-	local prev_column = w.STARTING_COLUMN
-	if #w.panels > 1 then prev_column = w.panels[#w.panels-1].column end
-	local col_diff = panel.column - prev_column
-	if col_diff < 0 then
-		local pos = go.get(panel.id, "position.x")
-		go.set(panel.id, "position.x", pos - (col_diff * 16))
-		for _, block in ipairs(panel.blocks) do
-			local pos = go.get(block, "position.x")
-			go.set(block, "position.x", pos + (col_diff * 16))
+	---- trim start
+	panel.left_limit = go.get_position(panel.id).x
+	local prev_left_limit = w.STARTING_LEFT_LIMIT
+	local prev_right_limit = w.STARTING_LEFT_LIMIT + 16 * (w.STARTING_LENGTH - 1)
+	if #w.panels > 1 then
+		prev_left_limit = w.panels[#w.panels-1].left_limit
+		prev_right_limit = w.panels[#w.panels-1].left_limit + 16 * (w.panels[#w.panels-1].length - 1)
+	end
+	for i = #panel.blocks, 1, -1 do
+		local x = go.get_world_position(panel.blocks[i]).x
+		if x < prev_left_limit or x > prev_right_limit then
+			go.delete(panel.blocks[i], true)
+			table.remove(panel.blocks, i)
 		end
 	end
-	--trim panel end
+	if go.get_position(panel.id).x < go.get_world_position(panel.blocks[1]).x then
+		local diff = go.get_world_position(panel.blocks[1]).x - go.get_position(panel.id).x
+		local pos = go.get(panel.id, "position.x")
+		go.set(panel.id, "position.x", pos  + diff)
+		panel.left_limit = go.get_position(panel.id).x
+		for _, block in ipairs(panel.blocks) do
+			local pos = go.get(block, "position.x")
+			go.set(block, "position.x", pos - diff)
+		end
+	end
+	panel.length = #panel.blocks
+	w.length = panel.length
+	---- trim panel end
 	msg.post(msg.url(nil, panel.id, "panel"), "stop")
 	w.panel_moving = false
 end

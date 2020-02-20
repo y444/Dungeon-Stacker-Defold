@@ -12,22 +12,20 @@ local function spawn_hero(self)
 end
 
 local function reset_gamefield()
+	if w.hero.id ~= nil then go.delete(w.hero.id) end
+	if w.chest ~= nil then go.delete(w.chest) end
 	w.row = w.STARTING_ROW
 	w.length = w.STARTING_LENGTH
 	w.speed = w.STARTING_SPEED
 	w.time = w.STARTING_TIME
 	w.score = w.STARTING_SCORE
 	w.panel_moving = false
-	msg.post(w.torches, "lightup", {amount = 15})
-	msg.post(w.hud, "reset_hud")
-	if w.hero.id ~= nil then go.delete(w.hero.id) print("deleted hero") end
-	spawn_hero(self)
-	print("spawned hero")
 	for _, panel in ipairs(w.panels) do go.delete(panel.id, true) end
 	w.panels = {}
-	if w.chest ~= nil then go.delete(w.chest) print("deleted hero") end
+	spawn_hero(self)
 	w.chest = factory.create(w.chest_factory, w.CHEST_START_POS, nil, {amount = w.REWARD_TYPES.CHEST})
-	print("spawned chest")
+	msg.post(w.torches, "lightup", {amount = 15})
+	msg.post(w.hud, "reset_hud")
 end
 
 local function add_hero_target(self)
@@ -52,30 +50,31 @@ end
 
 local function switch_gamestate(self, new_gamestate)
 	if new_gamestate == w.GAMESTATE.START then
-		reset_gamefield(self)
+		print("start")
+		timer.delay(0, false, function() reset_gamefield() end)
 		self.ticker = 0
 		w.gamestate = w.GAMESTATE.START
-		print("start")
+		
 	end
 	if new_gamestate == w.GAMESTATE.PLAY then
+		print("play")
 		msg.post(w.torches, "lightup", {amount = 0})
 		w.gamestate = w.GAMESTATE.PLAY
-		print("play")
 	end
 	if new_gamestate == w.GAMESTATE.WIN then
+		print("win")
 		msg.post(w.torches, "lightup", {amount = 15})
 		table.insert(w.hero.move_targets, go.get_position(w.panels[#w.panels].id) + vmath.vector3(0,16,0))
 		table.insert(w.hero.move_targets, w.CHEST_START_POS)
-		print("win")
 	end
 	if new_gamestate == w.GAMESTATE.LOSE then
-		msg.post(w.torches, "lightup", {amount = 0})
 		print("lose")
+		msg.post(w.torches, "lightup", {amount = 0})
 		switch_gamestate(self, w.GAMESTATE.END)
 	end
 	if new_gamestate == w.GAMESTATE.END then
-		w.gamestate = w.GAMESTATE.END
 		print("end")
+		w.gamestate = w.GAMESTATE.END
 	end
 end
 
@@ -191,7 +190,9 @@ function on_message(self, message_id, message, sender)
 	if message_id == hash("collected") then
 		w.score = w.score + message.amount
 		msg.post(w.hud, "update_score", {score = w.score})
-		if message.amount == w.REWARD_TYPES.CHEST then switch_gamestate(self, w.GAMESTATE.END) end
+		if message.amount == w.REWARD_TYPES.CHEST and w.gamestate == w.GAMESTATE.PLAY then
+			switch_gamestate(self, w.GAMESTATE.END)
+		end
 	end
 	
 end

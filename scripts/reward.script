@@ -3,16 +3,13 @@ local w = require("modules.world")
 go.property("amount", 0)
 
 local function collect(self)
-	msg.post("/gameplay_manager#gameplay_manager", "collected", {amount = self.amount})
-	if self.amount == w.REWARD_TYPES.CHEST then
-		w.chest = nil
-		print("chest collected")
-	end
+	if self.amount == w.REWARD_TYPES.CHEST then w.chest = nil end
 	go.delete() --TODO: animate
+	msg.post("/gameplay_manager#gameplay_manager", "collected", {amount = self.amount})
 end
 
 function on_message(self, message_id, message, sender)
-	if (message_id == hash("trigger_response") and message.enter == true) then
-		collect(self)
+	if message_id == hash("trigger_response") then
+		if message.enter == true then collect(self) end
 	end
 end

@@ -56,6 +56,7 @@ local function switch_gamestate(self, new_gamestate)
 	end
 	if new_gamestate == w.GAMESTATE.WIN then
 		msg.post(w.torches, "lightup", {amount = 15})
+		msg.post(w.chest, "collect") -- TEMP
 		switch_gamestate(self, w.GAMESTATE.END)
 	end
 	if new_gamestate == w.GAMESTATE.LOSE then
@@ -163,7 +164,6 @@ function on_input(self, action_id, action)
 				end
 				add_hero_target(self, nil)
 				if is_game_won(self) then
-					msg.post(w.chest, "collect")
 					print("win")
 					switch_gamestate(self, w.GAMESTATE.WIN)
 					return

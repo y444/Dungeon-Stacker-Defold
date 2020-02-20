@@ -15,10 +15,18 @@ function update(self, dt)
 		if x == tx and y == ty then table.remove(w.hero.move_targets, 1) end
 		if self.ticker >= w.hero.delay then
 			self.ticker = 0
-			if x ~= tx then
-				go.set(".", "position.x", x + w.hero.speed * dir)
-				elseif y ~= ty then
-				go.set(".", "position.y", y + w.hero.speed)
+			if w.row ~= 1 or w.row ~= 15 then
+				if x ~= tx then
+					go.set(".", "position.x", x + w.hero.speed * dir)
+					elseif y ~= ty then
+					go.set(".", "position.y", y + w.hero.speed)
+				end
+			else
+				if y ~= ty then
+					go.set(".", "position.y", y + w.hero.speed)
+				elseif x ~= tx then
+					go.set(".", "position.x", x + w.hero.speed * dir)
+				end
 			end
 		end
 		self.ticker = self.ticker + dt

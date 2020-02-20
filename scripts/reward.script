@@ -4,12 +4,15 @@ go.property("amount", 0)
 
 local function collect(self)
 	msg.post("/gameplay_manager#gameplay_manager", "collected", {amount = self.amount})
-	if self.amount == w.REWARD_TYPES.CHEST then w.chest = nil end
+	if self.amount == w.REWARD_TYPES.CHEST then
+		w.chest = nil
+		print("chest collected")
+	end
 	go.delete() --TODO: animate
 end
 
 function on_message(self, message_id, message, sender)
-	if (message_id == hash("trigger_response") and message.enter == true) or message_id == hash("collect") then
+	if (message_id == hash("trigger_response") and message.enter == true) then
 		collect(self)
 	end
 end

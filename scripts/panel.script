@@ -13,7 +13,7 @@ local function add_reward(self)
 		reward = w.REWARD_TYPES.SMALL_CHEST
 		reward_factory = w.small_chest_factory
 	end
-	local new_reward = factory.create(reward_factory, vmath.vector3(0, 0, 1))
+	local new_reward = factory.create(reward_factory, vmath.vector3(0, 0, 1), nil, {amount = reward})
 	go.set_parent(new_reward, self.panel.blocks[block_number])
 end
 

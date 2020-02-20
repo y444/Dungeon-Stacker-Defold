@@ -5,27 +5,26 @@ function init(self)
 end
 
 function update(self, dt)
-	if self.ticker >= w.hero.delay then
-		self.ticker = 0
-		if #w.hero.move_targets > 0 and w.hero.is_moving then
-			local x = go.get_position().x
-			local y = go.get_position().y
-			local tx = w.hero.move_targets[1].x
-			local ty = w.hero.move_targets[1].y
-			local dir
-			if x > tx then dir = -1 else dir = 1 end
+	if #w.hero.move_targets > 0 and w.hero.is_moving then
+		local x = go.get_position().x
+		local y = go.get_position().y
+		local tx = w.hero.move_targets[1].x
+		local ty = w.hero.move_targets[1].y
+		local dir
+		if x > tx then dir = -1 else dir = 1 end
+		if x == tx and y == ty then table.remove(w.hero.move_targets, 1) end
+		if self.ticker >= w.hero.delay then
+			self.ticker = 0
 			if x ~= tx then
 				go.set(".", "position.x", x + w.hero.speed * dir)
-			elseif y ~= ty then
+				elseif y ~= ty then
 				go.set(".", "position.y", y + w.hero.speed)
-			else
-				table.remove(w.hero.move_targets, 1)
 			end
 		end
+		self.ticker = self.ticker + dt
 	end
-	self.ticker = self.ticker + dt
 end
 
 function on_message(self, message_id, message, sender)
-	
+	--play death animation on contact with skull
 end

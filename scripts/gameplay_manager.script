@@ -52,7 +52,7 @@ end
 local function switch_gamestate(self, new_gamestate)
 	if new_gamestate == w.GAMESTATE.START then
 		print("start")
-		timer.delay(0, false, function() reset_gamefield() end)
+		timer.delay(0, false, reset_gamefield)
 		self.ticker = 0
 		w.gamestate = w.GAMESTATE.START
 		

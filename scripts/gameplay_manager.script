@@ -159,6 +159,7 @@ function update(self, dt)
 			self.ticker = 0
 			w.time = w.time - 1
 			msg.post(w.hud, "update_time", {time = w.time})
+			if w.time == 0 then spawn_skull(self) end
 		end
 	end
 end

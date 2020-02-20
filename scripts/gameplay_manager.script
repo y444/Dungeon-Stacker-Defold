@@ -45,7 +45,8 @@ local function add_hero_target(self)
 end
 
 local function move_hero_to_chest(self)
-	
+	table.insert(w.hero.move_targets, w.hero.move_targets[#w.hero.move_targets] + vmath.vector3(0,16,0))
+	table.insert(w.hero.move_targets, w.CHEST_START_POS)
 end
 
 local function switch_gamestate(self, new_gamestate)
@@ -64,8 +65,7 @@ local function switch_gamestate(self, new_gamestate)
 	if new_gamestate == w.GAMESTATE.WIN then
 		print("win")
 		msg.post(w.torches, "lightup", {amount = 15})
-		table.insert(w.hero.move_targets, go.get_position(w.panels[#w.panels].id) + vmath.vector3(0,16,0))
-		table.insert(w.hero.move_targets, w.CHEST_START_POS)
+		move_hero_to_chest(self)
 	end
 	if new_gamestate == w.GAMESTATE.LOSE then
 		print("lose")

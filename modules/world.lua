@@ -13,6 +13,8 @@ local world = {
 	HERO_SPEED = 8,
 	HERO_DELAY = 0.4,
 	SKULL_START_POS = vmath.vector3(72, 8, 8),
+	SKULL_SPEED = 12,
+	SKULL_DELAY = 0.4,
 	CHEST_START_POS = vmath.vector3(72, 288, 0),
 	PANEL_START_POS = vmath.vector3(24, 24, -1),
 	PANEL_DIRECTIONS = {-1, 1},
@@ -49,7 +51,7 @@ local world = {
 	score = 0,
 	panel_moving = false,
 	hero = {},
-	skull = nil,
+	skull = {},
 	panels = {},
 	chest = nil
 }

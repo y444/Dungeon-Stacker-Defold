@@ -18,6 +18,7 @@ function update(self, dt)
 			if w.row ~= 1 or w.row ~= 15 then
 				if x ~= tx then
 					go.set(".", "position.x", x + w.hero.speed * dir)
+					sprite.set_hflip("#sprite", dir < 0)
 					elseif y ~= ty then
 					go.set(".", "position.y", y + w.hero.speed)
 				end
@@ -26,13 +27,10 @@ function update(self, dt)
 					go.set(".", "position.y", y + w.hero.speed)
 				elseif x ~= tx then
 					go.set(".", "position.x", x + w.hero.speed * dir)
+					sprite.set_hflip("#sprite", dir < 0)
 				end
 			end
 		end
 		self.ticker = self.ticker + dt
 	end
-end
-
-function on_message(self, message_id, message, sender)
-	--play death animation on contact with skull
 end

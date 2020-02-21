@@ -71,7 +71,9 @@ local function switch_gamestate(self, new_gamestate)
 	if new_gamestate == w.GAMESTATE.START then
 		print("start")
 		timer.delay(0, false, reset_gamefield)
-		msg.post(w.start_popup, "show")
+		msg.post(w.popups, "switch", {new_state = w.POPUP_STATES.HIDE, intent = w.POPUP_INTENTS.LOSE})
+		msg.post(w.popups, "switch", {new_state = w.POPUP_STATES.HIDE, intent = w.POPUP_INTENTS.WIN})
+		msg.post(w.popups, "switch", {new_state = w.POPUP_STATES.SHOW, intent = w.POPUP_INTENTS.START})
 		self.ticker = 0
 		w.gamestate = w.GAMESTATE.START
 		
@@ -79,19 +81,21 @@ local function switch_gamestate(self, new_gamestate)
 	if new_gamestate == w.GAMESTATE.PLAY then
 		print("play")
 		msg.post(w.hud, "show")
-		msg.post(w.start_popup, "hide")
+		msg.post(w.popups, "switch", {new_state = w.POPUP_STATES.HIDE, intent = w.POPUP_INTENTS.START})
 		msg.post(w.torches, "lightup", {amount = 0})
 		w.gamestate = w.GAMESTATE.PLAY
 	end
 	if new_gamestate == w.GAMESTATE.WIN then
 		print("win")
 		msg.post(w.torches, "lightup", {amount = 15})
+		msg.post(w.popups, "switch", {new_state = w.POPUP_STATES.SHOW, intent = w.POPUP_INTENTS.WIN})
 		move_hero_to_chest(self)
 		despawn_skull(self)
 		w.gamestate = w.GAMESTATE.WIN
 	end
 	if new_gamestate == w.GAMESTATE.LOSE then
 		print("lose")
+		msg.post(w.popups, "switch", {new_state = w.POPUP_STATES.SHOW, intent = w.POPUP_INTENTS.LOSE})
 		msg.post(w.torches, "lightup", {amount = 0})
 		despawn_skull(self)
 		switch_gamestate(self, w.GAMESTATE.END)

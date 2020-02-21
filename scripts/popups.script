@@ -1,0 +1,19 @@
+local w = require("modules.world")
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("switch") then
+		local title_url = msg.url("/" .. message.intent .. "_title")
+		local subtitle_url = msg.url("/" .. message.intent .. "_subtitle")
+		local title_x
+		local subtitle_x
+		if message.new_state == w.POPUP_STATES.SHOW then
+			title_x = 0
+			subtitle_x = 0
+		elseif message.new_state == w.POPUP_STATES.HIDE then
+			title_x = w.POPUP_TITLE_START_POS
+			subtitle_x = w.POPUP_SUBTITLE_START_POS
+		end
+		go.animate(title_url, "position.x", go.PLAYBACK_ONCE_FORWARD, title_x, go.EASING_LINEAR, 0.2)
+		go.animate(subtitle_url, "position.x", go.PLAYBACK_ONCE_FORWARD, subtitle_x, go.EASING_LINEAR, 0.2)
+	end
+end

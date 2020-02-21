@@ -200,7 +200,7 @@ animations {
     image: "/assets/image_sources/skull/skull_1.png"
   }
   playback: PLAYBACK_ONCE_BACKWARD
-  fps: 2
+  fps: 4
   flip_horizontal: 0
   flip_vertical: 0
 }

@@ -77,6 +77,7 @@ local function switch_gamestate(self, new_gamestate)
 	end
 	if new_gamestate == w.GAMESTATE.PLAY then
 		print("play")
+		msg.post(w.hud, "show")
 		msg.post(w.torches, "lightup", {amount = 0})
 		w.gamestate = w.GAMESTATE.PLAY
 	end
@@ -95,6 +96,7 @@ local function switch_gamestate(self, new_gamestate)
 	end
 	if new_gamestate == w.GAMESTATE.END then
 		print("end")
+		msg.post(w.hud, "hide")
 		w.gamestate = w.GAMESTATE.END
 	end
 end
@@ -215,9 +217,6 @@ function on_message(self, message_id, message, sender)
 	if message_id == hash("collected") then
 		w.score = w.score + message.amount
 		msg.post(w.hud, "update_score", {score = w.score})
-		if message.amount == w.REWARD_TYPES.CHEST and w.gamestate == w.GAMESTATE.PLAY then
-			switch_gamestate(self, w.GAMESTATE.END)
-		end
 	end
 	if message_id == hash("killed") then
 		sprite.play_flipbook(msg.url(nil, w.hero.id, "sprite"), "hero_death")

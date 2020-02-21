@@ -20,6 +20,7 @@ end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("trigger_response") and message.enter == true and message.other_group == hash("hero") then
+		w.hero.is_moving = false
 		self.skull.is_chasing = false
 		self.skull.id = nil
 		go.delete()

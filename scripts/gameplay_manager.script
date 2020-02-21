@@ -19,6 +19,16 @@ local function spawn_skull(self)
 	w.skull.id = factory.create(w.skull_factory, w.SKULL_START_POS)
 end
 
+local function despawn_skull(self)
+	w.skull.is_chasing = false
+	if w.skull.id ~= nil then
+		sprite.play_flipbook(msg.url(nil, w.skull.id, "sprite"), "skull_disappear", function()
+			go.delete(w.skull.id)
+			w.skull.id = nil
+		end)
+	end
+end
+
 local function reset_gamefield()
 	if w.hero.id ~= nil then go.delete(w.hero.id) end
 	if w.chest ~= nil then go.delete(w.chest) end
@@ -74,11 +84,13 @@ local function switch_gamestate(self, new_gamestate)
 		print("win")
 		msg.post(w.torches, "lightup", {amount = 15})
 		move_hero_to_chest(self)
+		despawn_skull(self)
 		w.gamestate = w.GAMESTATE.WIN
 	end
 	if new_gamestate == w.GAMESTATE.LOSE then
 		print("lose")
 		msg.post(w.torches, "lightup", {amount = 0})
+		despawn_skull(self)
 		switch_gamestate(self, w.GAMESTATE.END)
 	end
 	if new_gamestate == w.GAMESTATE.END then
@@ -207,5 +219,8 @@ function on_message(self, message_id, message, sender)
 			switch_gamestate(self, w.GAMESTATE.END)
 		end
 	end
-	
+	if message_id == hash("killed") then
+		sprite.play_flipbook(msg.url(nil, w.hero.id, "sprite"), "hero_death")
+		switch_gamestate(self, w.GAMESTATE.LOSE)
+	end
 end

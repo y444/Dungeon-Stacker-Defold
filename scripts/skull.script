@@ -21,6 +21,8 @@ end
 function on_message(self, message_id, message, sender)
 	if message_id == hash("trigger_response") and message.enter == true and message.other_group == hash("hero") then
 		self.skull.is_chasing = false
-		sprite.play_flipbook("#sprite", "skull_disappear", function() msg.post("/gameplay_manager#gameplay_manager", "killed") end)
+		self.skull.id = nil
+		go.delete()
+		msg.post(w.gameplay_manager, "killed")
 	end
 end

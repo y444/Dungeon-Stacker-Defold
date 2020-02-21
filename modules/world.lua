@@ -42,6 +42,7 @@ local world = {
 	countdown_counter = "/countdown_counter",
 	countdown_label = "/countdown_counter#countdown_label",
 	countdown_icon_mask = "/countdown_counter#countdown_icon_mask",
+	gameplay_manager = "/gameplay_manager#gameplay_manager",
 	gamestate = 0,
 	row = 0,
 	column = 0,

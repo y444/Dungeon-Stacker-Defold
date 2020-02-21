@@ -5,7 +5,7 @@ go.property("amount", 0)
 local function collect(self)
 	if self.amount == w.REWARD_TYPES.CHEST then w.chest = nil end
 	go.delete() --TODO: animate
-	msg.post("/gameplay_manager#gameplay_manager", "collected", {amount = self.amount})
+	msg.post(w.gameplay_manager, "collected", {amount = self.amount})
 end
 
 function on_message(self, message_id, message, sender)

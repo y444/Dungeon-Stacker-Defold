@@ -71,6 +71,7 @@ local function switch_gamestate(self, new_gamestate)
 	if new_gamestate == w.GAMESTATE.START then
 		print("start")
 		timer.delay(0, false, reset_gamefield)
+		msg.post(w.start_popup, "show")
 		self.ticker = 0
 		w.gamestate = w.GAMESTATE.START
 		
@@ -78,6 +79,7 @@ local function switch_gamestate(self, new_gamestate)
 	if new_gamestate == w.GAMESTATE.PLAY then
 		print("play")
 		msg.post(w.hud, "show")
+		msg.post(w.start_popup, "hide")
 		msg.post(w.torches, "lightup", {amount = 0})
 		w.gamestate = w.GAMESTATE.PLAY
 	end

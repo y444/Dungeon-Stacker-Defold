@@ -1348,7 +1348,22 @@ embedded_instances {
   id: "start_popup"
   children: "subtitle"
   children: "title"
-  data: ""
+  data: "components {\n"
+  "  id: \"start_popup\"\n"
+  "  component: \"/scripts/start_popup.script\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  ""
   position {
     x: 0.0
     y: 0.0

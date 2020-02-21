@@ -36,6 +36,7 @@ local world = {
 	border_factory = "/industry#border_factory",
 	torches = "/torches#torches",
 	hud = "/HUD#hud",
+	start_popup = "/start_popup#start_popup",
 	money_counter = "/money_counter",
 	money_label = "/money_counter#money_label",
 	money_icon_mask = "/money_counter#money_icon_mask",

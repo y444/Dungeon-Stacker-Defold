@@ -1,0 +1,12 @@
+local w = require("modules.world")
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("show") then
+		go.animate("/title", "position.x", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_LINEAR, 0.2)
+		go.animate("/subtitle", "position.x", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_LINEAR, 0.2)
+	end
+	if message_id == hash("hide") then
+		go.animate("/title", "position.x", go.PLAYBACK_ONCE_FORWARD, 120, go.EASING_LINEAR, 0.2)
+		go.animate("/subtitle", "position.x", go.PLAYBACK_ONCE_FORWARD, -120, go.EASING_LINEAR, 0.2)
+	end
+end

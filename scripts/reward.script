@@ -1,11 +1,40 @@
 local w = require("modules.world")
 
-go.property("amount", 0)
+go.property("n", 0)
 
 local function collect(self)
-	if self.amount == w.REWARD_TYPES.CHEST then w.chest = nil end
+	if self.reward.type == w.REWARD_TYPES.CHEST then w.chest = nil end
+	msg.post(w.gameplay_manager, "collected", {amount = self.reward.type})
+	table.remove(w.rewards, self.n)
 	go.delete() --TODO: animate
-	msg.post(w.gameplay_manager, "collected", {amount = self.amount})
+end
+
+function init(self)
+	self.reward = w.rewards[self.n]
+	self.ticker = 0
+	self.ticks = 0
+	self.tick_time = w.REWARD_TICK_TIME
+end
+
+function update(self, dt)
+	if go.get_world_position(".").y < go.get_position(w.hero.id).y and self.reward.state == w.REWARD_STATES.ACTIVE then
+		self.reward.state = w.REWARD_STATES.MISSED
+	end
+	if self.reward.state == w.REWARD_STATES.MISSED then
+		self.ticker = self.ticker + dt
+		if self.ticker >= self.tick_time then
+			self.ticker = 0
+			self.tick_time = self.tick_time / 1.1
+			if go.get("#sprite", "tint.w") == 1 then go.set("#sprite", "tint.w", 0)
+			else go.set("#sprite", "tint.w", 1)
+			end
+			self.ticks = self.ticks + 1
+			if self.ticks == w.REWARD_TICKS * 2 - 1 then
+				table.remove(w.rewards, self.n)
+				go.delete() --TODO: animate
+			end
+		end
+	end
 end
 
 function on_message(self, message_id, message, sender)

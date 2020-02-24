@@ -29,6 +29,16 @@ local function despawn_skull(self)
 	end
 end
 
+local function spawn_chest(self)
+	local new_chest = {}
+	new_chest.row = 16
+	new_chest.type = w.REWARD_TYPES.CHEST
+	new_chest.state = w.REWARD_STATES.ACTIVE
+	table.insert(w.rewards, new_chest)
+	w.chest = factory.create(w.chest_factory, w.CHEST_START_POS, nil, {n = #w.rewards})
+	new_chest.id = w.chest
+end
+
 local function reset_gamefield()
 	if w.hero.id ~= nil then go.delete(w.hero.id) end
 	if w.chest ~= nil then go.delete(w.chest) end
@@ -40,8 +50,9 @@ local function reset_gamefield()
 	w.panel_moving = false
 	for _, panel in ipairs(w.panels) do go.delete(panel.id, true) end
 	w.panels = {}
+	w.rewards = {}
 	spawn_hero(self)
-	w.chest = factory.create(w.chest_factory, w.CHEST_START_POS, nil, {amount = w.REWARD_TYPES.CHEST})
+	spawn_chest(self)
 	msg.post(w.torches, "lightup", {amount = 15})
 	msg.post(w.hud, "reset_hud")
 end
@@ -108,7 +119,7 @@ local function switch_gamestate(self, new_gamestate)
 end
 
 local function spawn_panel(self)
-	new_panel = {}
+	local new_panel = {}
 	new_panel.row = w.row
 	new_panel.length = w.length
 	new_panel.speed = w.speed - w.SPEEDUP_FACTOR * (w.row - 1)

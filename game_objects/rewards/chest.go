@@ -13,7 +13,7 @@ components {
     w: 1.0
   }
   properties {
-    id: "amount"
+    id: "n"
     value: "10.0"
     type: PROPERTY_TYPE_NUMBER
   }

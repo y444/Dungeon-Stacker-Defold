@@ -22,6 +22,9 @@ local world = {
 	RIGHT = 1,
 	BLOCK_IMAGES = {"middle_block_1", "middle_block_2", "middle_block_3", "middle_block_4"},
 	REWARD_TYPES = {COIN = 1, SMALL_CHEST = 2, CHEST = 3},
+	REWARD_STATES = {ACTIVE = 1, MISSED = 2},
+	REWARD_TICKS = 5,
+	REWARD_TICK_TIME = 0.2,
 	SMALL_CHEST_ROW = 11,
 	BORDER_IMAGES = {"border_1", "border_2"},
 	BORDER_TYPES = {LEFT = 1, RIGHT = 2},
@@ -59,6 +62,7 @@ local world = {
 	hero = {},
 	skull = {},
 	panels = {},
-	chest = nil
+	chest = nil,
+	rewards = {}
 }
 return world

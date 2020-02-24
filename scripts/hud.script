@@ -38,7 +38,8 @@ function on_message(self, message_id, message, sender)
 		go.set(w.money_label, "color", w.GREY_COLOR)
 	end
 	if message_id == hash("show") then
-		go.animate(".", "position.y", go.PLAYBACK_ONCE_FORWARD, go.get(".", "position.y") - 24, go.EASING_LINEAR, 0.2)
+		print("showing hud")
+		go.animate(".", "position.y", go.PLAYBACK_ONCE_FORWARD, go.get(".", "position.y") - 24, go.EASING_LINEAR, 0)
 	end
 	if message_id == hash("hide") then
 		print("hiding hud")

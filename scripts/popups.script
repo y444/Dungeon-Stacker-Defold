@@ -13,7 +13,7 @@ function on_message(self, message_id, message, sender)
 			title_x = w.POPUP_TITLE_START_POS
 			subtitle_x = w.POPUP_SUBTITLE_START_POS
 		end
-		go.animate(title_url, "position.x", go.PLAYBACK_ONCE_FORWARD, title_x, go.EASING_LINEAR, 0.2)
-		go.animate(subtitle_url, "position.x", go.PLAYBACK_ONCE_FORWARD, subtitle_x, go.EASING_LINEAR, 0.2)
+		go.animate(title_url, "position.x", go.PLAYBACK_ONCE_FORWARD, title_x, go.EASING_LINEAR, 0)
+		go.animate(subtitle_url, "position.x", go.PLAYBACK_ONCE_FORWARD, subtitle_x, go.EASING_LINEAR, 0)
 	end
 end

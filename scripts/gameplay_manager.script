@@ -80,7 +80,7 @@ local function switch_gamestate(self, new_gamestate)
 	end
 	if new_gamestate == w.GAMESTATE.PLAY then
 		print("play")
-		msg.post(w.hud, "show")
+		timer.delay(0, false, function() msg.post(w.hud, "show") end)
 		msg.post(w.popups, "switch", {new_state = w.POPUP_STATES.HIDE, intent = w.POPUP_INTENTS.START})
 		msg.post(w.torches, "lightup", {amount = 0})
 		w.gamestate = w.GAMESTATE.PLAY

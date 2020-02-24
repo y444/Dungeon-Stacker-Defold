@@ -74,6 +74,7 @@ local function add_hero_target(self)
 end
 
 local function move_hero_to_chest(self)
+	sprite.play_flipbook(w.chest, "chest_open")
 	table.insert(w.hero.move_targets, w.hero.move_targets[#w.hero.move_targets] + vmath.vector3(0,16,0))
 	table.insert(w.hero.move_targets, w.CHEST_START_POS)
 end

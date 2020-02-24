@@ -22,7 +22,7 @@ embedded_components {
   id: "sprite"
   type: "sprite"
   data: "tile_set: \"/sprite_atlases/dungeon_items.atlas\"\n"
-  "default_animation: \"chest_open\"\n"
+  "default_animation: \"chest\"\n"
   "material: \"/builtins/materials/sprite.material\"\n"
   "blend_mode: BLEND_MODE_ALPHA\n"
   ""

@@ -5,6 +5,7 @@ go.property("n", 0)
 local function collect(self)
 	if self.reward.type == w.REWARD_TYPES.CHEST then w.chest = nil end
 	msg.post(w.gameplay_manager, "collected", {amount = self.reward.type})
+	sound.play("#sound")
 	table.remove(w.rewards, self.n)
 	go.delete() --TODO: animate
 end

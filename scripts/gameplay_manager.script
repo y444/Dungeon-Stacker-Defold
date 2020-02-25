@@ -109,6 +109,9 @@ local function switch_gamestate(self, new_gamestate)
 		print("lose")
 		msg.post(w.popups, "switch", {new_state = w.POPUP_STATES.SHOW, intent = w.POPUP_INTENTS.LOSE})
 		msg.post(w.torches, "lightup", {amount = 0})
+		sound.play(msg.url(nil, w.hero.id, "sound_die"), {delay = 0.2})
+		w.hero.is_moving = false
+		w.panels[#w.panels].is_moving = false
 		despawn_skull(self)
 		switch_gamestate(self, w.GAMESTATE.END)
 	end
@@ -153,6 +156,7 @@ local function stop_panel(self)
 		if x < prev_left_limit or x > prev_right_limit then
 			go.delete(panel.blocks[i], true)
 			table.remove(panel.blocks, i)
+			sound.play(msg.url(nil, panel.id, "sound_trim"), {delay = 0.1})
 		end
 	end
 	if go.get_position(panel.id).x < go.get_world_position(panel.blocks[1]).x then
@@ -203,6 +207,7 @@ end
 
 function on_input(self, action_id, action)
 	if action_id == hash("touch") and action.pressed then
+		sound.play("#sound")
 		if w.gamestate == w.GAMESTATE.START then
 			switch_gamestate(self, w.GAMESTATE.PLAY)
 		end

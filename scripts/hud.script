@@ -22,6 +22,9 @@ function on_message(self, message_id, message, sender)
 		if message.time <= 3 then
 			go.set(w.countdown_label, "color", w.RED_COLOR)
 			go.set(w.countdown_icon_mask, "tint.w", 1)
+			if message.time > 0 then sound.play("#sound_countdown_tick")
+			elseif message.time == 0 then sound.play("#sound_countdown_zero")
+			end
 		else
 			go.set(w.countdown_label, "color", w.GREY_COLOR)
 			go.set(w.countdown_icon_mask, "tint.w", 0)

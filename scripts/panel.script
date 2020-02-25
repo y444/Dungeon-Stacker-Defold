@@ -65,6 +65,7 @@ function update(self, dt)
 				self.panel.dir = -self.panel.dir
 			end
 			go.set(".", "position.x", pos - self.panel.dir * 16)
+			sound.play("#sound_move")
 		end
 	end
 end
@@ -72,5 +73,6 @@ end
 function on_message(self, message_id, message, sender)
 	if message_id == hash("stop") then
 		make_borders(self)
+		sound.play("#sound_stop")
 	end
 end

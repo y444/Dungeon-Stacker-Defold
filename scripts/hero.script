@@ -19,15 +19,19 @@ function update(self, dt)
 				if x ~= tx then
 					go.set(".", "position.x", x + w.hero.speed * dir)
 					sprite.set_hflip("#sprite", dir < 0)
+					sound.play("#sound_move")
 					elseif y ~= ty then
 					go.set(".", "position.y", y + w.hero.speed)
+					sound.play("#sound_move")
 				end
 			else
 				if y ~= ty then
 					go.set(".", "position.y", y + w.hero.speed)
+					sound.play("#sound_move")
 				elseif x ~= tx then
 					go.set(".", "position.x", x + w.hero.speed * dir)
 					sprite.set_hflip("#sprite", dir < 0)
+					sound.play("#sound_move")
 				end
 			end
 		end

@@ -13,6 +13,7 @@ function update(self, dt)
 			local distance = go.get_position(w.hero.id) - go.get_position()
 			local normalized_distance = vmath.normalize(distance) * self.skull.speed
 			go.set_position(go.get_position() + normalized_distance)
+			sound.play("#sound")
 		end
 		self.ticker = self.ticker + dt
 	end

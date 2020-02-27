@@ -83,7 +83,6 @@ end
 
 local function switch_gamestate(self, new_gamestate)
 	if new_gamestate == w.GAMESTATE.START then
-		print("start")
 		timer.delay(0, false, reset_gamefield)
 		msg.post(w.popups, "switch", {new_state = w.POPUP_STATES.HIDE, intent = w.POPUP_INTENTS.LOSE})
 		msg.post(w.popups, "switch", {new_state = w.POPUP_STATES.HIDE, intent = w.POPUP_INTENTS.WIN})
@@ -93,14 +92,12 @@ local function switch_gamestate(self, new_gamestate)
 		
 	end
 	if new_gamestate == w.GAMESTATE.PLAY then
-		print("play")
 		timer.delay(0, false, function() msg.post(w.hud, "show") end)
 		msg.post(w.popups, "switch", {new_state = w.POPUP_STATES.HIDE, intent = w.POPUP_INTENTS.START})
 		msg.post(w.torches, "lightup", {amount = 0})
 		w.gamestate = w.GAMESTATE.PLAY
 	end
 	if new_gamestate == w.GAMESTATE.WIN then
-		print("win")
 		msg.post(w.torches, "lightup", {amount = 15})
 		msg.post(w.popups, "switch", {new_state = w.POPUP_STATES.SHOW, intent = w.POPUP_INTENTS.WIN})
 		move_hero_to_chest(self)
@@ -108,7 +105,6 @@ local function switch_gamestate(self, new_gamestate)
 		w.gamestate = w.GAMESTATE.WIN
 	end
 	if new_gamestate == w.GAMESTATE.LOSE then
-		print("lose")
 		msg.post(w.popups, "switch", {new_state = w.POPUP_STATES.SHOW, intent = w.POPUP_INTENTS.LOSE})
 		msg.post(w.torches, "lightup", {amount = 0})
 		sound.play(msg.url(nil, w.hero.id, "sound_die"), {delay = 0.2})
@@ -118,7 +114,6 @@ local function switch_gamestate(self, new_gamestate)
 		switch_gamestate(self, w.GAMESTATE.END)
 	end
 	if new_gamestate == w.GAMESTATE.END then
-		print("end")
 		msg.post(w.hud, "hide")
 		w.gamestate = w.GAMESTATE.END
 	end

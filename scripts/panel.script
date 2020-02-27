@@ -36,14 +36,16 @@ end
 local function make_borders(self)
 	for i = 1, #self.panel.blocks do
 		if i == 1 then
-			local border_pos = vmath.vector3(-16, 0, -1) 
+			local border_pos = vmath.vector3(-20, 0, -1) 
 			local border_id = factory.create(w.border_factory, border_pos, nil, {side = 0})
 			go.set_parent(border_id, self.panel.blocks[i])
+			go.animate(border_id, "position.x", go.PLAYBACK_ONCE_FORWARD, -16, go.EASING_INCUBIC, 0.1)
 		end
 		if i == #self.panel.blocks then
-			local border_pos = vmath.vector3(16, 0, -1) 
+			local border_pos = vmath.vector3(20, 0, -1) 
 			local border_id = factory.create(w.border_factory, border_pos, nil, {side = 1})
 			go.set_parent(border_id, self.panel.blocks[i])
+			go.animate(border_id, "position.x", go.PLAYBACK_ONCE_FORWARD, 16, go.EASING_INCUBIC, 0.1)
 		end
 		msg.post(msg.url(nil, self.panel.blocks[i], "border_sprite"), "enable")
 	end

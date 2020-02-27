@@ -37,6 +37,7 @@ local world = {
 	skull_factory = "/industry#skull_factory",
 	panel_factory = "/industry#panel_factory",
 	block_factory = "/industry#block_factory",
+	fall_block_factory = "/industry#fall_block_factory",
 	coin_factory = "/industry#coin_factory",
 	small_chest_factory = "/industry#small_chest_factory",
 	chest_factory = "/industry#chest_factory",
@@ -62,6 +63,7 @@ local world = {
 	hero = {},
 	skull = {},
 	panels = {},
+	fall_blocks = {},
 	chest = nil,
 	rewards = {}
 }

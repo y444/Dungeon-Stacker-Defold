@@ -51,6 +51,8 @@ local function reset_gamefield()
 	for _, panel in ipairs(w.panels) do go.delete(panel.id, true) end
 	w.panels = {}
 	w.rewards = {}
+	for _, fall_block in ipairs(w.fall_blocks) do go.delete(fall_block, true) end
+	w.fall_blocks = {}
 	spawn_hero(self)
 	spawn_chest(self)
 	msg.post(w.torches, "lightup", {amount = 15})
@@ -154,6 +156,8 @@ local function stop_panel(self)
 	for i = #panel.blocks, 1, -1 do
 		local x = go.get_world_position(panel.blocks[i]).x
 		if x < prev_left_limit or x > prev_right_limit then
+			local fall_block = factory.create(w.fall_block_factory, go.get_world_position(panel.blocks[i]))
+			table.insert(w.fall_blocks, fall_block)
 			go.delete(panel.blocks[i], true)
 			table.remove(panel.blocks, i)
 			sound.play(msg.url(nil, panel.id, "sound_trim"), {delay = 0.1})

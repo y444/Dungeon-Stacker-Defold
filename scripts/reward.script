@@ -2,12 +2,22 @@ local w = require("modules.world")
 
 go.property("n", 0)
 
+local function play_collect(self)
+	go.set(".", "position.z", 10)
+	if self.reward.type == w.REWARD_TYPES.COIN then
+		go.animate("#sprite", "playback_rate", go.PLAYBACK_ONCE_FORWARD, 10, go.EASING_OUTCUBIC, 0.14)
+	else
+		go.set("#sprite", "playback_rate", 0)
+	end
+	go.animate(".", "position.y", go.PLAYBACK_ONCE_FORWARD, go.get(".", "position.y") + 12, go.EASING_OUTCUBIC, 0.15, 0, function() go.delete() end)
+end
+
 local function collect(self)
 	if self.reward.type == w.REWARD_TYPES.CHEST then w.chest = nil end
 	msg.post(w.gameplay_manager, "collected", {amount = self.reward.type})
 	sound.play("#sound")
 	table.remove(w.rewards, self.n)
-	go.delete() --TODO: animate
+	play_collect(self)
 end
 
 function init(self)
